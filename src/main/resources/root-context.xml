@@ -13,7 +13,7 @@
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		id="realDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@gammi2_high?TNS_ADMIN=C:\\devtools\\wallet_movie" />
+		<property name="url" value="jdbc:oracle:thin:@moviesquare_high?TNS_ADMIN=C:\\devtools\\wallet_movie" />
 	    <property name="username" value="ADMIN" />
 	    <property name="password" value="Lovelybo==0528" />
 	</bean>

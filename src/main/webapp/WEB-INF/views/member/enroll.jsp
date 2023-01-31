@@ -42,12 +42,13 @@ function dupCheckId() {
 //비밀번호 확인
 function dupCheckPw(){
 	var pwdLength = $("#m_pw").val().length;
-	if(pwdLength<8 || pwdLength>15)
+	 var passRule = /^(?=.*[a-zA-Z])((?=.*\d)).{8,15}$/;
+	if(passRule.test($("#m_pw").val()) === false)
 	{
-		$("#pwdMsg").text("비밀번호 글자수 제한 8~15자");
+		$("#pwdMsg").text("비밀번호는 영어와 숫자를 포함한 8~15자 이내로 작성해 주세요 비밀번호 길이 : " + pwdLength);
 		$("#pwdMsg").css('color', 'red');
 	}else{
-		$("#pwdMsg").text("비밀번호 사용 가능");
+		$("#pwdMsg").text("비밀번호 사용 가능  비밀번호 길이 : " + pwdLength);
 		$("#pwdMsg").css('color', 'green');
 	}
 }
@@ -89,6 +90,20 @@ function dupCheckNick() {
 		}
 	});
 }
+//이메일 확인
+function emailChk(){
+	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+	
+	if(passRule.test($("#m_email").val()) === true)
+	{
+		$("#emailMsg").text("이메일 사용 가능");
+		$("#emailMsg").css('color', 'green');
+	}else{
+		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
+		$("#emailMsg").css('color', 'red');
+	}
+	
+}
 </script>
 </head>
 <body>
@@ -112,9 +127,14 @@ function dupCheckNick() {
 					<input class="name" type="text" name="m_name" id="m_name" placeholder="*이름을 입력해 주세요" required><br>
 				</div>
 				<div class="">
-					<input class="id" type="text" name="m_nickname" id="m_nickname" oninput="dupCheckNick();" placeholder="*닉네임를 입력해주세요." required><br>
+					<input class="nick" type="text" name="m_nickname" id="m_nickname" oninput="dupCheckNick();" placeholder="*닉네임를 입력해주세요." required><br>
 					 <span id="nickMsg"></span>
 				</div>
+				<div class="">
+					<input class="email" type="text" name="m_email" id="m_email" oninput="emailChk();" placeholder="*이메일 작성해주세요." required><br>
+					 <span id="emailMsg"></span>
+				</div>
+				
 				
 				<div>
 					<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>

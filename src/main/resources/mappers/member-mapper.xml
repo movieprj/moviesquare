@@ -8,6 +8,10 @@
 <select id="idcheck" parameterType="string" resultType="_int">
 	select count(*) from member where m_id = #{id}
 </select>
+<!-- 닉네임 중복 체크 -->
+<select id="nickcheck" parameterType="string" resultType="_int">
+	select count(*) from member where m_nickname = #{nickname}
+</select>
 </mapper>
 
 

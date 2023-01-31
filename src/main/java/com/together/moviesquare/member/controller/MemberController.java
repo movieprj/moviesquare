@@ -41,4 +41,20 @@ public class MemberController {
 		out.flush();
 		out.close();
 	}
+	
+	@RequestMapping(value = "nickcheck.do", method=RequestMethod.POST)
+	public void nickcheck(@RequestParam("m_nickname") String nickname, HttpServletResponse response) throws Exception {
+		int result = service.nickcheck(nickname);
+		String returnValue = "";
+		if(result==0) {
+			returnValue = "ok";//"닉네임 생성이 가능합니다.";
+		}else {
+			returnValue = "no";//"닉네임이 중복 되었습니다.";
+		}
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.append(returnValue);
+		out.flush();
+		out.close();
+	}
 }

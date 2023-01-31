@@ -13,5 +13,8 @@ public class MemberDao {
 	public int idcheck(String id) {
 		return session.selectOne("memberMapper.idcheck" ,id);
 	}
+	public int nickcheck(String nickname) {
+		return session.selectOne("memberMapper.nickcheck" ,nickname);
+	}
 
 }

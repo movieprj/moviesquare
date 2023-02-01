@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.together.moviesquare.member.dao.MemberDao;
+import com.together.moviesquare.member.vo.Member;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -18,6 +19,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int nickcheck(String nickname) {
 		return dao.nickcheck(nickname);
+	}
+
+	@Override
+	public int enroll(Member member) {
+		return dao.enroll(member);
 	}
 
 }

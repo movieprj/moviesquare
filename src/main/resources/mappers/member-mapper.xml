@@ -12,6 +12,11 @@
 <select id="nickcheck" parameterType="string" resultType="_int">
 	select count(*) from member where m_nickname = #{nickname}
 </select>
+<!-- 회원가입 -->
+<insert id="enroll" parameterType="Member">
+insert into member (M_ID, M_PW, M_NAME, M_NICKNAME, M_EMAIL, M_GENDER, M_BIRTHDAY, ADMIN, LOGIN_OK)
+values(#{m_id}, #{m_pw}, #{m_name}, #{m_nickname}, #{m_email},#{m_gender}, #{m_birthday}, default, default)
+</insert>
 </mapper>
 
 

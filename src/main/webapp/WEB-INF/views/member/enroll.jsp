@@ -7,13 +7,19 @@
 <meta charset="UTF-8">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+//회원가입 유효성 검사
+var enrollcheck = {
+		"idVal" : "invalidation",
+		"pwVal" : "invalidation",
+		"nickVal" : "invalidation",
+		"emailVal" : "invalidation"
+};
+
 //입력된 아이디가 중복되지 않았는지 확인
 function dupCheckId() {
-	const idchkMsg = $('#idDupCheckMsg');
-	idMinLength = document.getElementById("m_id").value.length;
-	if (idMinLength < 4) {
-		idchkMsg.html("아이디는 최소 5자 이상이어야 합니다.");
-		idchkMsg.css('color', 'red');
+	if ($("#m_id").val().length < 4) {
+		$("#idDupCheckMsg").text("아이디는 최소 5자 이상이어야 합니다.");
+		$("#idDupCheckMsg").css('color', 'red');
 	}else{
 		$.ajax({
 			url : "idcheck.do",
@@ -22,13 +28,14 @@ function dupCheckId() {
 				m_id : $("#m_id").val()
 			},
 			success : function(data) {
-				console.log("sucess : " + data);
 				if (data == "ok") {
-					idchkMsg.html("사용 가능한 아이디입니다.");
-					idchkMsg.css('color', 'green');
+					$("#idDupCheckMsg").text("사용 가능한 아이디입니다.");
+					$("#idDupCheckMsg").css('color', 'green');
+					enrollcheck["idVal"] = "validation";
 				} else {
-					idchkMsg.html("이미 가입된 회원의 아이디입니다.");
-					idchkMsg.css('color', 'red');
+					$("#idDupCheckMsg").text("이미 가입된 회원의 아이디입니다.");
+					$("#idDupCheckMsg").css('color', 'red');
+					enrollcheck["idVal"] = "invalidation";
 					$("#m_id").select();
 				}
 			},
@@ -60,9 +67,11 @@ function verifyPWD(){
 	{
 		$("#vPwdMsg").text("일치합니다.");
 		$("#vPwdMsg").css('color', 'green');
+		enrollcheck["pwVal"] = "validation";
 	}else{
 		$("#vPwdMsg").text("다시 확인해 주세요");
 		$("#vPwdMsg").css('color', 'red');
+		enrollcheck["pwVal"] = "invalidation";
 	}
 }
 //닉네임 확인
@@ -78,9 +87,11 @@ function dupCheckNick() {
 			if (data == "ok") {
 				$("#nickMsg").text("사용 가능한 닉네임입니다.");
 				$("#nickMsg").css('color', 'green');
+				enrollcheck["nickVal"] = "validation";
 			} else {
 				$("#nickMsg").text("사용중인 닉네임입니다.");
 				$("#nickMsg").css('color', 'red');
+				enrollcheck["nickVal"] = "invalidation";
 				$("#m_nickname").select();
 			}
 		},
@@ -93,27 +104,47 @@ function dupCheckNick() {
 //이메일 확인
 function emailChk(){
 	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-	
 	if(passRule.test($("#m_email").val()) === true)
 	{
 		$("#emailMsg").text("이메일 사용 가능");
 		$("#emailMsg").css('color', 'green');
+		enrollcheck["emailVal"] = "validation";
 	}else{
 		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
 		$("#emailMsg").css('color', 'red');
+		enrollcheck["emailVal"] = "invalidation";
 	}
-	
+}
+//회원가입 폼 유효성 검사
+function validate(){
+	if(enrollcheck["idVal"]=="invalidation"){
+		alert("id 확인해 주세요");
+		return false;
+	}else if(enrollcheck["pwVal"]=="invalidation"){
+		alert("비밀번호 확인해 주세요");
+		return false;
+	}else if(enrollcheck["nickVal"]=="invalidation"){
+		alert("닉네임 확인해 주세요");
+		return false;
+	}else if(enrollcheck["emailVal"]=="invalidation"){
+		alert("이메일 확인해 주세요");
+		return false;
+	}else{
+		alert("성공");
+		return true;
+	}
 }
 </script>
 </head>
 <body>
-<form action="" method="post" onsubmit="return validate();">
+<form action="memenroll.do" method="post" onsubmit="return validate();">
 		<div class="">
 			<div class="">
 				<h3 align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입 페이지</h3><br>
 				<div class="">
-					<input class="id" type="text" name="m_id" id="m_id" oninput="dupCheckId();" placeholder="*아이디를 입력해주세요." required><br>
+					<input class="id" type="text" name="m_id" id="m_id" placeholder="*아이디를 입력해주세요." required><br>
 					 <span id="idDupCheckMsg"></span>
+					 <input class="idCheckBtn" type="button" onclick="dupCheckId();" value="아이디 중복 확인 버튼">
 				</div>
 				<div class="">
 					<input class="pwd" type="password" name="m_pw" id="m_pw" oninput="dupCheckPw();" placeholder="*비밀번호를 입력해주세요." required><br>
@@ -131,11 +162,17 @@ function emailChk(){
 					 <span id="nickMsg"></span>
 				</div>
 				<div class="">
-					<input class="email" type="text" name="m_email" id="m_email" oninput="emailChk();" placeholder="*이메일 작성해주세요." required><br>
+					<input class="email" type="text" name="m_email" id="m_email" placeholder="*이메일 작성해주세요." required><br>
 					 <span id="emailMsg"></span>
+					 <input class="idCheckBtn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼">
 				</div>
-				
-				
+				<div class="">
+					<input class="gender" type="radio" name="m_gender" value="M" checked> 남자 &nbsp;
+					<input class="gender" type="radio" name="m_gender" value="F"> 여자
+				</div>
+				<div class="">
+					<input class="birth" type="date" name="m_birthday" id="m_birthday" required><br>
+				</div>
 				<div>
 					<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>
 				</div>

@@ -1,6 +1,5 @@
 package com.together.moviesquare.member.controller;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.together.moviesquare.member.service.MemberService;
+import com.together.moviesquare.member.vo.Member;
 
 @Controller
 public class MemberController {
@@ -25,7 +25,7 @@ public class MemberController {
 	public String enrollPageMove() {
 		return "member/enroll";
 	}
-	
+	//id 중복 확인 ajax
 	@RequestMapping(value = "idcheck.do", method=RequestMethod.POST)
 	public void idcheckFunc(@RequestParam("m_id") String id, HttpServletResponse response) throws Exception {
 		int result = service.idcheck(id);
@@ -41,7 +41,7 @@ public class MemberController {
 		out.flush();
 		out.close();
 	}
-	
+	//닉네임 중복 확인 ajax
 	@RequestMapping(value = "nickcheck.do", method=RequestMethod.POST)
 	public void nickcheck(@RequestParam("m_nickname") String nickname, HttpServletResponse response) throws Exception {
 		int result = service.nickcheck(nickname);
@@ -57,4 +57,15 @@ public class MemberController {
 		out.flush();
 		out.close();
 	}
+	//회원가입 성공
+	@RequestMapping(value = "memenroll.do", method=RequestMethod.POST)
+	public String memberEnroll(Member member) {
+		if(service.enroll(member)>0) {
+			logger.info("회원가입 성공");
+		}else {
+			logger.info("회원가입 실패");
+		}
+		return "common/main";
+	}
+	
 }

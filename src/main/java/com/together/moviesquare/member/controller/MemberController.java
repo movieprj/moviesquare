@@ -2,15 +2,20 @@ package com.together.moviesquare.member.controller;
 
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.together.moviesquare.member.service.MemberService;
 import com.together.moviesquare.member.vo.Member;
@@ -20,6 +25,9 @@ public class MemberController {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private MemberService service;
+	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@RequestMapping("enrollPage.do")
 	public String enrollPageMove() {
@@ -57,9 +65,10 @@ public class MemberController {
 		out.flush();
 		out.close();
 	}
-	//회원가입 성공
+	//회원가입 실행
 	@RequestMapping(value = "memenroll.do", method=RequestMethod.POST)
 	public String memberEnroll(Member member) {
+		member.setM_pw(this.bcryptPasswordEncoder.encode(member.getM_pw()));
 		if(service.enroll(member)>0) {
 			logger.info("회원가입 성공");
 		}else {
@@ -67,5 +76,29 @@ public class MemberController {
 		}
 		return "common/main";
 	}
-	
+	//로그인
+	@RequestMapping(value="loginPage.do")
+	public String loginPage() {
+		return "member/login"; 
+	}
+	@RequestMapping(value="login.do", method=RequestMethod.POST)
+	public String memberLogin(Member member, HttpSession loginSession, SessionStatus status) {
+		Member loginMember = service.selectMember(member.getM_id());
+		logger.info("login정보 : "+ loginMember);
+		if(loginMember!=null && this.bcryptPasswordEncoder.matches(member.getM_pw(), loginMember.getM_pw())) {
+			loginSession.setAttribute("loginMember", loginMember);
+			status.setComplete();
+		}
+		return "../../index";
+	}
+	//로그아웃
+	@RequestMapping("logout.do")
+	public String memberlogout(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession(false);
+		
+		if(session != null) {
+			session.invalidate();
+		}
+		return "../../index";
+	}
 }

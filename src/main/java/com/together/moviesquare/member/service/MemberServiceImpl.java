@@ -26,4 +26,9 @@ public class MemberServiceImpl implements MemberService {
 		return dao.enroll(member);
 	}
 
+	@Override
+	public Member selectMember(String m_id) {
+		return dao.selectMember(m_id);
+	}
+
 }

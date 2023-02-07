@@ -19,8 +19,10 @@ public class MemberDao {
 		return session.selectOne("memberMapper.nickcheck" ,nickname);
 	}
 	public int enroll(Member member) {
-		System.out.println(member);
 		return session.insert("memberMapper.enroll" ,member);
+	}
+	public Member selectMember(String m_id) {
+		return session.selectOne("memberMapper.selectMember", m_id);
 	}
 
 }

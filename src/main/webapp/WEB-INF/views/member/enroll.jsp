@@ -49,7 +49,7 @@ function dupCheckId() {
 //비밀번호 확인
 function dupCheckPw(){
 	var pwdLength = $("#m_pw").val().length;
-	 var passRule = /^(?=.*[a-zA-Z])((?=.*\d)).{8,15}$/;
+	var passRule = /^(?=.*[a-zA-Z])((?=.*\d)).{8,15}$/;
 	if(passRule.test($("#m_pw").val()) === false)
 	{
 		$("#pwdMsg").text("비밀번호는 영어와 숫자를 포함한 8~15자 이내로 작성해 주세요 비밀번호 길이 : " + pwdLength);
@@ -58,6 +58,7 @@ function dupCheckPw(){
 		$("#pwdMsg").text("비밀번호 사용 가능  비밀번호 길이 : " + pwdLength);
 		$("#pwdMsg").css('color', 'green');
 	}
+	verifyPWD();
 }
 //비밀번호 일치 확인
 function verifyPWD(){
@@ -138,44 +139,44 @@ function validate(){
 </head>
 <body>
 <form action="memenroll.do" method="post" onsubmit="return validate();">
+	<div class="">
+		<h3 align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입 페이지</h3><br>
 		<div class="">
-			<div class="">
-				<h3 align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입 페이지</h3><br>
-				<div class="">
-					<input class="id" type="text" name="m_id" id="m_id" placeholder="*아이디를 입력해주세요." required><br>
-					 <span id="idDupCheckMsg"></span>
-					 <input class="idCheckBtn" type="button" onclick="dupCheckId();" value="아이디 중복 확인 버튼">
-				</div>
-				<div class="">
-					<input class="pwd" type="password" name="m_pw" id="m_pw" oninput="dupCheckPw();" placeholder="*비밀번호를 입력해주세요." required><br>
-					 <span id="pwdMsg"></span>
-				</div>
-				<div class="">
-					<input class="vpwd" type="password" name="v_pw" id="v_pw" oninput="verifyPWD();" placeholder="*비밀번호를 한번 더 입력해주세요." required><br>
-					 <span id="vPwdMsg"></span>
-				</div>
-				<div class="">
-					<input class="name" type="text" name="m_name" id="m_name" placeholder="*이름을 입력해 주세요" required><br>
-				</div>
-				<div class="">
-					<input class="nick" type="text" name="m_nickname" id="m_nickname" oninput="dupCheckNick();" placeholder="*닉네임를 입력해주세요." required><br>
-					 <span id="nickMsg"></span>
-				</div>
-				<div class="">
-					<input class="email" type="text" name="m_email" id="m_email" placeholder="*이메일 작성해주세요." required><br>
-					 <span id="emailMsg"></span>
-					 <input class="idCheckBtn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼">
-				</div>
-				<div class="">
-					<input class="gender" type="radio" name="m_gender" value="M" checked> 남자 &nbsp;
-					<input class="gender" type="radio" name="m_gender" value="F"> 여자
-				</div>
-				<div class="">
-					<input class="birth" type="date" name="m_birthday" id="m_birthday" required><br>
-				</div>
-				<div>
-					<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>
-				</div>
-	</form>
+			<input class="id" type="text" name="m_id" id="m_id" placeholder="*아이디를 입력해주세요." required><br>
+			 <span id="idDupCheckMsg"></span>
+			 <input class="idCheckBtn" type="button" onclick="dupCheckId();" value="아이디 중복 확인 버튼">
+		</div>
+		<div class="">
+			<input class="pwd" type="password" name="m_pw" id="m_pw" oninput="dupCheckPw();" placeholder="*비밀번호를 입력해주세요." required><br>
+			 <span id="pwdMsg"></span>
+		</div>
+		<div class="">
+			<input class="vpwd" type="password" name="v_pw" id="v_pw" oninput="verifyPWD();" placeholder="*비밀번호를 한번 더 입력해주세요." required><br>
+			 <span id="vPwdMsg"></span>
+		</div>
+		<div class="">
+			<input class="name" type="text" name="m_name" id="m_name" placeholder="*이름을 입력해 주세요" required><br>
+		</div>
+		<div class="">
+			<input class="nick" type="text" name="m_nickname" id="m_nickname" oninput="dupCheckNick();" placeholder="*닉네임를 입력해주세요." required><br>
+			 <span id="nickMsg"></span>
+		</div>
+		<div class="">
+			<input class="email" type="text" name="m_email" id="m_email" placeholder="*이메일 작성해주세요." required><br>
+			 <span id="emailMsg"></span>
+			 <input class="idCheckBtn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼">
+		</div>
+		<div class="">
+			<input class="gender" type="radio" name="m_gender" value="M" checked> 남자 &nbsp;
+			<input class="gender" type="radio" name="m_gender" value="F"> 여자
+		</div>
+		<div class="">
+			<input class="birth" type="date" name="m_birthday" id="m_birthday" required><br>
+		</div>
+		<div>
+			<input class="submit" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>
+		</div>
+	</div>
+</form>
 </body>
 </html>

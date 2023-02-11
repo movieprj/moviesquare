@@ -13,8 +13,8 @@
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		id="realDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-<!-- 		<property name="url" value="jdbc:oracle:thin:@moviesquare_high?TNS_ADMIN=C:\\devtools\\wallet_movie" /> -->
-		<property name="url" value="jdbc:oracle:thin:@mylovebibiseo.c7idxpqil0a1.ap-northeast-2.rds.amazonaws.com:1521:ORCL" />
+		<!-- <property name="url" value="jdbc:oracle:thin:@mylovebibiseo.c7idxpqil0a1.ap-northeast-2.rds.amazonaws.com:1521:ORCL" /> -->
+		<property name="url" value="jdbc:oracle:thin:@moviesquare_high?TNS_ADMIN=C:\\devtools\\wallet_movie" />
 	    <property name="username" value="ADMIN" />
 	    <property name="password" value="Lovelybo==0528" />
 	    <property name="validationQuery" value="SELECT 1 FROM DUAL"/>
@@ -67,7 +67,29 @@
 	</tx:advice>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
+	
+	<!-- 이메일 인증  -->
+	<context:property-placeholder location="classpath:config/email.properties" />
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="username" value="${email.account}" />
+		<property name="password" value="${email.password}" />
+		
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop> <!-- 2단계 본인인증 했으므로 true -->
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+			</props>
+		</property>
+	</bean>
 	
 </beans>
 

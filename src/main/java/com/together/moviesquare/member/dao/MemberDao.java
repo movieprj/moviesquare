@@ -12,8 +12,8 @@ import com.together.moviesquare.member.vo.Member;
 public class MemberDao {
 	@Autowired
 	private SqlSessionTemplate session; 
-	public int idcheck(String id) {
-		return session.selectOne("memberMapper.idcheck" ,id);
+	public int mailcheck(String email) {
+		return session.selectOne("memberMapper.mailcheck" ,email);
 	}
 	public int nickcheck(String nickname) {
 		return session.selectOne("memberMapper.nickcheck" ,nickname);

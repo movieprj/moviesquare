@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.together.moviesquare.member.service.MemberService;
@@ -27,19 +29,22 @@ public class MemberController {
 	private MemberService service;
 	
 	@Autowired
+	private MailSendService mailService;
+	
+	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@RequestMapping("enrollPage.do")
 	public String enrollPageMove() {
 		return "member/enroll";
 	}
-	//id 중복 확인 ajax
-	@RequestMapping(value = "idcheck.do", method=RequestMethod.POST)
-	public void idcheckFunc(@RequestParam("m_id") String id, HttpServletResponse response) throws Exception {
-		int result = service.idcheck(id);
+	//이메일 중복 확인 ajax
+	@RequestMapping(value = "emailcheck.do", method=RequestMethod.POST)
+	public void idcheckFunc(@RequestParam("m_email") String email, HttpServletResponse response) throws Exception {
+		int result = service.emailcheck(email);
 		String returnValue = "";
 		if(result==0) {
-			returnValue = "ok";//"아이디 생성이 가능합니다.";
+			returnValue = mailService.mailMessage(email);//"아이디 생성이 가능합니다.";
 		}else {
 			returnValue = "no";//"아이디가 중복 되었습니다.";
 		}
@@ -83,7 +88,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="login.do", method=RequestMethod.POST)
 	public String memberLogin(Member member, HttpSession loginSession, SessionStatus status) {
-		Member loginMember = service.selectMember(member.getM_id());
+		Member loginMember = service.selectMember(member.getM_email());
 		logger.info("login정보 : "+ loginMember);
 		if(loginMember!=null && this.bcryptPasswordEncoder.matches(member.getM_pw(), loginMember.getM_pw())) {
 			loginSession.setAttribute("loginMember", loginMember);

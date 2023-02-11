@@ -12,8 +12,8 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
 	
 	@Override
-	public int idcheck(String id) {
-		return dao.idcheck(id);
+	public int emailcheck(String email) {
+		return dao.mailcheck(email);
 	}
 
 	@Override

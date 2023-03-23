@@ -9,23 +9,25 @@
 <script type="text/javascript">
 //회원가입 유효성 검사
 var enrollcheck = {
-		"idVal" : "invalidation",
 		"pwVal" : "invalidation",
 		"nickVal" : "invalidation",
 		"emailVal" : "invalidation"
 };
 
-//입력된 아이디가 중복되지 않았는지 확인
+//입력된 이메일 중복되지 않았는지 확인
 function dupCheckId() {
-	if ($("#m_id").val().length < 4) {
-		$("#idDupCheckMsg").text("아이디는 최소 5자 이상이어야 합니다.");
-		$("#idDupCheckMsg").css('color', 'red');
-	}else{
+	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+	if(passRule.test($("#m_email").val()) === true)
+	{
+		$("#emailMsg").text("이메일 사용 가능");
+		$("#emailMsg").css('color', 'green');
+		enrollcheck["emailVal"] = "validation";
+		
 		$.ajax({
 			url : "idcheck.do",
 			type : "post",
 			data : {
-				m_id : $("#m_id").val()
+				m_email : $("#m_email").val()
 			},
 			success : function(data) {
 				if (data == "ok") {
@@ -36,7 +38,7 @@ function dupCheckId() {
 					$("#idDupCheckMsg").text("이미 가입된 회원의 아이디입니다.");
 					$("#idDupCheckMsg").css('color', 'red');
 					enrollcheck["idVal"] = "invalidation";
-					$("#m_id").select();
+					$("#m_email").select();
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -44,6 +46,10 @@ function dupCheckId() {
 						+ errorThrown);
 			}
 		});
+	}else{
+		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
+		$("#emailMsg").css('color', 'red');
+		enrollcheck["emailVal"] = "invalidation";
 	}
 }
 //비밀번호 확인
@@ -118,10 +124,7 @@ function emailChk(){
 }
 //회원가입 폼 유효성 검사
 function validate(){
-	if(enrollcheck["idVal"]=="invalidation"){
-		alert("id 확인해 주세요");
-		return false;
-	}else if(enrollcheck["pwVal"]=="invalidation"){
+	if(enrollcheck["pwVal"]=="invalidation"){
 		alert("비밀번호 확인해 주세요");
 		return false;
 	}else if(enrollcheck["nickVal"]=="invalidation"){
@@ -141,11 +144,7 @@ function validate(){
 <form action="memenroll.do" method="post" onsubmit="return validate();">
 	<div class="">
 		<h3 align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입 페이지</h3><br>
-		<div class="">
-			<input class="id" type="text" name="m_id" id="m_id" placeholder="*아이디를 입력해주세요." required><br>
-			 <span id="idDupCheckMsg"></span>
-			 <input class="idCheckBtn" type="button" onclick="dupCheckId();" value="아이디 중복 확인 버튼">
-		</div>
+		
 		<div class="">
 			<input class="pwd" type="password" name="m_pw" id="m_pw" oninput="dupCheckPw();" placeholder="*비밀번호를 입력해주세요." required><br>
 			 <span id="pwdMsg"></span>

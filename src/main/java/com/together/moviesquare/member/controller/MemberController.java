@@ -35,8 +35,8 @@ public class MemberController {
 	}
 	//id 중복 확인 ajax
 	@RequestMapping(value = "idcheck.do", method=RequestMethod.POST)
-	public void idcheckFunc(@RequestParam("m_id") String id, HttpServletResponse response) throws Exception {
-		int result = service.idcheck(id);
+	public void idcheckFunc(@RequestParam("m_email") String mail, HttpServletResponse response) throws Exception {
+		int result = service.idcheck(mail);
 		String returnValue = "";
 		if(result==0) {
 			returnValue = "ok";//"아이디 생성이 가능합니다.";
@@ -83,7 +83,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="login.do", method=RequestMethod.POST)
 	public String memberLogin(Member member, HttpSession loginSession, SessionStatus status) {
-		Member loginMember = service.selectMember(member.getM_id());
+		Member loginMember = service.selectMember(member.getM_email());
 		logger.info("login정보 : "+ loginMember);
 		if(loginMember!=null && this.bcryptPasswordEncoder.matches(member.getM_pw(), loginMember.getM_pw())) {
 			loginSession.setAttribute("loginMember", loginMember);

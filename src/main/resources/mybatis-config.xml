@@ -10,6 +10,7 @@
 
 	<typeAliases>		
 		<typeAlias type="com.together.moviesquare.member.vo.Member" alias="Member" />
+		<typeAlias type="com.together.moviesquare.member.vo.KaKao" alias="KaKao" />
 	</typeAliases>
 	
 	<mappers>

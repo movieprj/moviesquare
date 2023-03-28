@@ -13,32 +13,28 @@ var enrollcheck = {
 		"nickVal" : "invalidation",
 		"emailVal" : "invalidation"
 };
-
+var email_code = "";
 //입력된 이메일 중복되지 않았는지 확인
-function dupCheckId() {
+function emailChk() {
 	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 	if(passRule.test($("#m_email").val()) === true)
 	{
-		$("#emailMsg").text("이메일 사용 가능");
-		$("#emailMsg").css('color', 'green');
-		enrollcheck["emailVal"] = "validation";
-		
 		$.ajax({
-			url : "idcheck.do",
+			url : "emailcheck.do",
 			type : "post",
 			data : {
 				m_email : $("#m_email").val()
 			},
 			success : function(data) {
-				if (data == "ok") {
-					$("#idDupCheckMsg").text("사용 가능한 아이디입니다.");
-					$("#idDupCheckMsg").css('color', 'green');
-					enrollcheck["idVal"] = "validation";
-				} else {
-					$("#idDupCheckMsg").text("이미 가입된 회원의 아이디입니다.");
-					$("#idDupCheckMsg").css('color', 'red');
-					enrollcheck["idVal"] = "invalidation";
+				if (data == "no") {
+					$("#emailMsg").text("이미 가입된 회원의 이메일입니다.");
+					$("#emailMsg").css('color', 'red');
 					$("#m_email").select();
+				} else {
+					$("#emailMsg").text("사용 가능한 이메일입니다.");
+					$("#emailMsg").css('color', 'green');
+					email_code = data;
+					$("#ceMailcertification").attr('disabled',false);
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -50,6 +46,19 @@ function dupCheckId() {
 		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
 		$("#emailMsg").css('color', 'red');
 		enrollcheck["emailVal"] = "invalidation";
+	}
+}
+function mailCertification(){
+	var input_code = $("#ceMailcertification").val();
+	console.log(input_code);
+	if(email_code == input_code){
+		enrollcheck["emailVal"] = "validation";
+		$("#emailCertificationMsg").text("이메일 인증이 완료되었습니다.");
+		$("#emailCertificationMsg").css('color', 'green');
+	}else{
+		enrollcheck["emailVal"] = "invalidation";
+		$("#emailCertificationMsg").text("잘못된 인증번호 입니다. 다시 확인해 주세요");
+		$("#emailCertificationMsg").css('color', 'red');
 	}
 }
 //비밀번호 확인
@@ -108,8 +117,9 @@ function dupCheckNick() {
 		}
 	});
 }
-//이메일 확인
-function emailChk(){
+//이메일 확인 사용안함
+/*
+function emailChk2(){
 	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 	if(passRule.test($("#m_email").val()) === true)
 	{
@@ -122,6 +132,7 @@ function emailChk(){
 		enrollcheck["emailVal"] = "invalidation";
 	}
 }
+*/
 //회원가입 폼 유효성 검사
 function validate(){
 	if(enrollcheck["pwVal"]=="invalidation"){
@@ -146,6 +157,15 @@ function validate(){
 		<h3 align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입 페이지</h3><br>
 		
 		<div class="">
+			<input class="email" type="text" name="m_email" id="m_email" placeholder="*이메일 작성해주세요." required><br>
+			 <span id="emailMsg"></span>
+			 <input class="idCheckBtn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼">
+		</div>
+		<div class="">
+			<input class="certification" id = "ceMailcertification" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6" oninput="mailCertification();" required><br>
+			<span id="emailCertificationMsg"></span>
+		</div>
+		<div class="">
 			<input class="pwd" type="password" name="m_pw" id="m_pw" oninput="dupCheckPw();" placeholder="*비밀번호를 입력해주세요." required><br>
 			 <span id="pwdMsg"></span>
 		</div>
@@ -159,11 +179,6 @@ function validate(){
 		<div class="">
 			<input class="nick" type="text" name="m_nickname" id="m_nickname" oninput="dupCheckNick();" placeholder="*닉네임를 입력해주세요." required><br>
 			 <span id="nickMsg"></span>
-		</div>
-		<div class="">
-			<input class="email" type="text" name="m_email" id="m_email" placeholder="*이메일 작성해주세요." required><br>
-			 <span id="emailMsg"></span>
-			 <input class="idCheckBtn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼">
 		</div>
 		<div class="">
 			<input class="gender" type="radio" name="m_gender" value="M" checked> 남자 &nbsp;

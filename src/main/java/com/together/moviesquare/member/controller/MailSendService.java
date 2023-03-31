@@ -23,7 +23,7 @@ public class MailSendService {
 		int checkNum = rdm.nextInt(888888) + 111111;
 		auth_num = checkNum;
 		
-		String setFrom = "mcg8031@gmail.com";
+		String setFrom = "holyromanempire16th@gmail.com";
 		String toMail = m_email;
 		String title = "회원 가입 인증 이메일입니다";
 		String content = "인증 번호는 " + auth_num + "입니다."
@@ -47,7 +47,7 @@ public class MailSendService {
 		} catch(MessagingException e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 
 	public String sendTempPwd(String m_email) {
 		String memberKey = 

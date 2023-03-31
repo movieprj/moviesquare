@@ -5,7 +5,7 @@ import com.together.moviesquare.member.vo.Member;
 
 public interface MemberService {
 	//아이디 중복 체크
-	public int emailcheck(String email);
+	public int mailcheck(String id);
 	//닉네임 중복 체크
 	public int nickcheck(String nickname);
 	//회원가입 실행

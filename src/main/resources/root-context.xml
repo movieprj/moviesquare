@@ -5,26 +5,21 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- DataSource 등록 -->	
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		id="realDataSource" destroy-method="close">
-
-		<property name="driverClassName"
-			value="com.mysql.jdbc.Driver" />
-		<!-- <property name="url" value="jdbc:oracle:thin:@gammi2_high?TNS_ADMIN=C:\\devtools\\wallet_movie" /> -->
-	    <property name="url" value="jdbc:mysql://movie.ccdstlp0avzq.ap-northeast-2.rds.amazonaws.com:3306/movie?characterEncoding=UTF-8" />
-	    <property name="username" value="admin" />
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<!-- <property name="url" value="jdbc:oracle:thin:@mylovebibiseo.c7idxpqil0a1.ap-northeast-2.rds.amazonaws.com:1521:ORCL" /> -->
+		<property name="url" value="jdbc:oracle:thin:@moviesquare_high?TNS_ADMIN=C:\\devtools\\wallet_movie" />
+	    <property name="username" value="ADMIN" />
 	    <property name="password" value="Lovelybo==0528" />
-<!-- 	    <property name="validationQuery" value="SELECT 1 FROM DUAL"/>
-		<property name="testWhileIdle" value="true"/> -->
-
+	    <property name="validationQuery" value="SELECT 1 FROM DUAL"/>
+		<property name="testWhileIdle" value="true"/>
 	</bean>
-	
-	
 	
 	
 	<bean id="dataSource"
@@ -72,7 +67,7 @@
 	</tx:advice>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	
+
 	<!-- 이메일 인증  -->
 	<context:property-placeholder location="classpath:config/email.properties" />
 	

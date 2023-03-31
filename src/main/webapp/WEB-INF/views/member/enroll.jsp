@@ -13,9 +13,9 @@ var enrollcheck = {
 		"nickVal" : "invalidation",
 		"emailVal" : "invalidation"
 };
-var email_code = '';
-//입력된 이메일이 중복되지 않았는지 확인
-function emailChk(){
+var email_code = "";
+//입력된 이메일 중복되지 않았는지 확인
+function emailChk() {
 	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 	if(passRule.test($("#m_email").val()) === true)
 	{
@@ -27,17 +27,14 @@ function emailChk(){
 			},
 			success : function(data) {
 				if (data == "no") {
-					$("#emailMsg").text("이미 가입된 이메일 입니다.");
+					$("#emailMsg").text("이미 가입된 회원의 이메일입니다.");
 					$("#emailMsg").css('color', 'red');
-					enrollcheck["emailVal"] = "invalidation";
+					$("#m_email").select();
 				} else {
-					$("#emailMsg").text("이메일 사용 가능");
+					$("#emailMsg").text("사용 가능한 이메일입니다.");
 					$("#emailMsg").css('color', 'green');
-					enrollcheck["emailVal"] = "validation";
-					console.log("data : " +  data);
+					email_code = data;
 					$("#ceMailcertification").attr('disabled',false);
-					email_code =data;
-					alert('인증번호가 전송되었습니다.')
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -49,6 +46,19 @@ function emailChk(){
 		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
 		$("#emailMsg").css('color', 'red');
 		enrollcheck["emailVal"] = "invalidation";
+	}
+}
+function mailCertification(){
+	var input_code = $("#ceMailcertification").val();
+	console.log(input_code);
+	if(email_code == input_code){
+		enrollcheck["emailVal"] = "validation";
+		$("#emailCertificationMsg").text("이메일 인증이 완료되었습니다.");
+		$("#emailCertificationMsg").css('color', 'green');
+	}else{
+		enrollcheck["emailVal"] = "invalidation";
+		$("#emailCertificationMsg").text("잘못된 인증번호 입니다. 다시 확인해 주세요");
+		$("#emailCertificationMsg").css('color', 'red');
 	}
 }
 //비밀번호 확인
@@ -107,16 +117,32 @@ function dupCheckNick() {
 		}
 	});
 }
+//이메일 확인 사용안함
+/*
+function emailChk2(){
+	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+	if(passRule.test($("#m_email").val()) === true)
+	{
+		$("#emailMsg").text("이메일 사용 가능");
+		$("#emailMsg").css('color', 'green');
+		enrollcheck["emailVal"] = "validation";
+	}else{
+		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
+		$("#emailMsg").css('color', 'red');
+		enrollcheck["emailVal"] = "invalidation";
+	}
+}
+*/
 //회원가입 폼 유효성 검사
 function validate(){
-	if(enrollcheck["emailVal"]=="invalidation"){
-		alert("이메일 확인해 주세요");
-		return false;
-	}else if(enrollcheck["pwVal"]=="invalidation"){
+	if(enrollcheck["pwVal"]=="invalidation"){
 		alert("비밀번호 확인해 주세요");
 		return false;
 	}else if(enrollcheck["nickVal"]=="invalidation"){
 		alert("닉네임 확인해 주세요");
+		return false;
+	}else if(enrollcheck["emailVal"]=="invalidation"){
+		alert("이메일 확인해 주세요");
 		return false;
 	}else{
 		alert("성공");
@@ -129,10 +155,11 @@ function validate(){
 <form action="memenroll.do" method="post" onsubmit="return validate();">
 	<div class="">
 		<h3 align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입 페이지</h3><br>
+		
 		<div class="">
-			<input class="email" type="text" name="m_email" id="m_email" placeholder="*사용중이신 이메일 작성해주세요." required><br>
+			<input class="email" type="text" name="m_email" id="m_email" placeholder="*이메일 작성해주세요." required><br>
 			 <span id="emailMsg"></span>
-			 <input class="emailCheckBtn" type="button" onclick="emailChk();" value="이메일 인증">
+			 <input class="idCheckBtn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼">
 		</div>
 		<div class="">
 			<input class="certification" id = "ceMailcertification" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6" oninput="mailCertification();" required><br>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+<!-- 아이디 중복 체크 -->
+<select id="mailcheck" parameterType="string" resultType="_int">
+	select count(*) from member where m_email = #{e_mail}
+</select>
+<!-- 닉네임 중복 체크 -->
+<select id="nickcheck" parameterType="string" resultType="_int">
+	select count(*) from member where m_nickname = #{nickname}
+</select>
+<!-- 회원가입 -->
+<insert id="enroll" parameterType="Member">
+insert into member (M_PW, M_NAME, M_NICKNAME, M_EMAIL, M_GENDER, M_BIRTHDAY, ADMIN, LOGIN_OK, agecode)
+values( #{m_pw}, #{m_name}, #{m_nickname}, #{m_email},#{m_gender}, #{m_birthday}, default, default, #{agecode})
+</insert>
+<!-- 카카오 회원가입 -->
+<insert id="enrollKaKao" parameterType="KaKao">
+insert into member (m_nickname,m_gender,admin,login_ok,kakaoid,agecode)
+values(#{m_nickname},#{m_gender},default,default,#{kakaoid},(select code from agecode where age =#{agecode})
+)
+</insert>
+<!-- 로그인시 아이디로 정보 가져오기 -->
+<select id="selectMember" parameterType="string" resultType="Member">
+select * from Member where m_email=#{m_id}
+</select>
+<!-- 카카오 로그인시 아이디로 정보 가져오기 -->
+<select id="selectKakaoMember" parameterType="string" resultType="KaKao">
+select * from Member where KAKAOID=#{KAKAOID}
+</select>
+</mapper>
+
+
+
+
+
+
+

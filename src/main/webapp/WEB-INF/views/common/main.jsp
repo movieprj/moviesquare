@@ -18,6 +18,7 @@
 		<c:if test="${ !empty sessionScope.loginMember }">
 			<button onclick="javascript:location.href='logout.do';">로그아웃</button>
 		</c:if>
+		<button onclick="javascript:location.href='ottBoardList.do';">ott게시판</button>
 	</div>
 </body>
 </html>

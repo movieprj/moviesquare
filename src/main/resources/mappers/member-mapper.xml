@@ -4,6 +4,15 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
+<resultMap type="KaKao" id="KakaoresultList">
+	<result property="m_nickname" column="m_nickname"/>
+	<result property="m_gender" column="m_gender"/>
+	<result property="admin" column="admin"/>
+	<result property="login_ok" column="login_ok"/>
+	<result property="kakaoid" column="SOCAL_ID"/>
+	<result property="agecode" column="agecode"/>
+</resultMap>
+
 <!-- 아이디 중복 체크 -->
 <select id="mailcheck" parameterType="string" resultType="_int">
 	select count(*) from member where m_email = #{e_mail}
@@ -19,8 +28,8 @@ values( #{m_pw}, #{m_name}, #{m_nickname}, #{m_email},#{m_gender}, #{m_birthday}
 </insert>
 <!-- 카카오 회원가입 -->
 <insert id="enrollKaKao" parameterType="KaKao">
-insert into member (m_nickname,m_gender,admin,login_ok,kakaoid,agecode)
-values(#{m_nickname},#{m_gender},default,default,#{kakaoid},(select code from agecode where age =#{agecode})
+insert into member (m_nickname,m_gender,admin,login_ok,SOCAL_ID,agecode)
+values(#{m_nickname},#{m_gender},default,default,#{kakaoid},(select AGECODE from agecode where AGE_GROUP = #{agecode})
 )
 </insert>
 <!-- 로그인시 아이디로 정보 가져오기 -->
@@ -28,8 +37,8 @@ values(#{m_nickname},#{m_gender},default,default,#{kakaoid},(select code from ag
 select * from Member where m_email=#{m_id}
 </select>
 <!-- 카카오 로그인시 아이디로 정보 가져오기 -->
-<select id="selectKakaoMember" parameterType="string" resultType="KaKao">
-select * from Member where KAKAOID=#{KAKAOID}
+<select id="selectKakaoMember" parameterType="string" resultMap="KakaoresultList">
+select * from Member where SOCAL_ID=#{SOCAL_ID}
 </select>
 </mapper>
 

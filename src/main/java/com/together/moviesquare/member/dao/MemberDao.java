@@ -29,17 +29,21 @@ public class MemberDao {
 	public Member selectMember(String m_id) {
 		return session.selectOne("memberMapper.selectMember", m_id);
 	}
+	//kakaoid는 소셜아이디이므로 멤버 테이블의 SOCAL_ID 컬럼에 넣어줌
 	public int enroll(KaKao member) {
 		try {
 			return session.insert("memberMapper.enrollKaKao" ,member);
 		}catch(Exception e) {
+			System.out.println("카카오 회원가입 오류 : "+e.toString());
 			return -1;
 		}
 	}
+	//kakaoid는 소셜아이디이므로 멤버 테이블의 SOCAL_ID 컬럼에 넣어줌
 	public KaKao selectKakaoMember(String kakaoid) {
 		try {
-		return session.selectOne("memberMapper.selectKakaoMember", kakaoid);
+			return session.selectOne("memberMapper.selectKakaoMember", kakaoid);
 		}catch(Exception e) {
+			System.out.println("카카오 회원 정보 호출 오류 : "+e.toString());
 			return null;
 		}
 	}

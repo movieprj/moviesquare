@@ -36,5 +36,17 @@
 			<div class="kakao_txt">카카오톡으로 간편로그인</div>
 		</a>
 	</form>
+	<form action="googleLogin.do" method="get">
+		<a class="google"
+			href="/moviesquare/googleLogin.do">
+			<div>구글로그인</div>
+		</a>
+	</form>
+	<form action="naverLogin.do" method="get">
+		<a class="naver"
+			href="/moviesquare/naverLogin.do">
+			<div>네이버로그인</div>
+		</a>
+	</form>
 </body>
 </html>

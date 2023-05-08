@@ -13,5 +13,13 @@ public interface KakaologinService {
 
 	KaKao selectMember(String kakaoid);
 	
+	//google
+	int enrollGoogle(KaKao member);
+
+	int enrollNaver(KaKao member);
+
+	KaKao selectGoogleMember(String kakaoid);
+
+	KaKao selectNaverMember(String kakaoid);
 	
 }

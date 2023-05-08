@@ -105,4 +105,24 @@ public class KakaologinServiceImpl implements KakaologinService{
 	public KaKao selectMember(String kakaoid) {
 		return dao.selectKakaoMember(kakaoid);
 	}
+
+	@Override
+	public int enrollGoogle(KaKao member) {
+		return dao.enrollGoogle(member);
+	}
+
+	@Override
+	public int enrollNaver(KaKao member) {
+		return dao.enrollNaver(member);
+	}
+
+	@Override
+	public KaKao selectGoogleMember(String kakaoid) {
+		return dao.selectGoogleMember(kakaoid);
+	}
+
+	@Override
+	public KaKao selectNaverMember(String kakaoid) {
+		return dao.selectNaverMember(kakaoid);
+	}
 }

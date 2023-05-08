@@ -1,14 +1,18 @@
 package com.together.moviesquare.member.controller;
 
-import java.io.IOException;
 import java.net.URI;
-import java.security.GeneralSecurityException;
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,18 +22,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.people.v1.PeopleService;
-import com.google.api.services.people.v1.PeopleService.People;
 import com.google.api.services.people.v1.PeopleServiceScopes;
+import com.together.moviesquare.member.service.KakaologinService;
 import com.together.moviesquare.member.vo.GoogleLoginResponse;
 import com.together.moviesquare.member.vo.GoogleOAuthRequest;
+import com.together.moviesquare.member.vo.KaKao;
 
 import lombok.extern.java.Log;
 
@@ -48,7 +51,8 @@ public class GoogleController {
 	private String api="AIzaSyDATQSrG3fV8ocsFVvU086gu9ssiWVIjwM";
 	
 	
-	
+	@Autowired
+	private KakaologinService service;
 	
 	@ResponseBody
 	@GetMapping("googleLogin.do")
@@ -88,11 +92,11 @@ public class GoogleController {
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 	private static final List<String> SCOPES = Arrays.asList(PeopleServiceScopes.CONTACTS_READONLY);
     
-	@ResponseBody
+	
     @GetMapping(value = "googleLoginCallback.do")
     public String oauth_google_check(HttpServletRequest request,
                                      @RequestParam(value = "code") String authCode,
-                                     HttpServletResponse response) throws Exception{
+                                     HttpServletResponse response,HttpSession loginSession, SessionStatus status) throws Exception{
 
         //2.구글에 등록된 레드망고 설정정보를 보내어 약속된 토큰을 받위한 객체 생성
         GoogleOAuthRequest googleOAuthRequest = GoogleOAuthRequest
@@ -127,9 +131,45 @@ public class GoogleController {
         //6.허가된 토큰의 유저정보를 결과로 받는다.
         String resultJson = restTemplate.getForObject(requestUrl, String.class);
         ResponseEntity<String> resultJson2 = restTemplate.exchange(requestUrl2, HttpMethod.GET, new HttpEntity<>(headers) , String.class);
-
- 
-        return resultJson+googleLoginResponse.toString()+ resultJson2;
+        
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode userInfo = mapper.readTree(resultJson2.getBody());
+        JsonNode idInfo = mapper.readTree(resultJson);
+        
+        //
+        String gender = userInfo.get("genders").get(0).get("value").toString();
+        String birthYear = userInfo.get("birthdays").get(0).get("date").get("year").toString();
+        
+        log.info(gender);
+        log.info(birthYear);
+        
+        LocalDate current_date = LocalDate.now();
+        int year = current_date.getYear();
+        String agecode = "A"+ String.valueOf((year-Integer.parseInt(birthYear))/10);
+        
+        if(gender.equals("male")){
+			gender = "M";
+		}else {
+			gender = "F";
+		}
+        
+        
+        KaKao member = new KaKao(idInfo.get("name").toString().replaceAll("\"", ""), gender, "N", "Y", idInfo.get("sub").toString().replaceAll("\"", ""), agecode);
+        KaKao loginMember = service.selectGoogleMember(member.getKakaoid());
+		log.info("login정보 : "+ loginMember);
+		if(loginMember ==null && service.enrollGoogle(member)>0) {
+			log.info("회원가입 성공");
+			loginMember = service.selectGoogleMember(member.getKakaoid());
+		}else {
+			log.info("회원가입 실패");
+		}
+		
+		log.info("login정보 : "+ loginMember);
+		loginSession.setAttribute("loginMember", loginMember);
+		status.setComplete();
+		return "../../index";
+        
+        //return resultJson+googleLoginResponse.toString()+ resultJson2;
     }
 	
 	

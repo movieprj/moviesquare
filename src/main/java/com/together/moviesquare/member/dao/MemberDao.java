@@ -47,5 +47,38 @@ public class MemberDao {
 			return null;
 		}
 	}
-
+	//google
+	public int enrollGoogle(KaKao member) {
+		try {
+			return session.insert("memberMapper.enrollGoogle" ,member);
+		}catch(Exception e) {
+			System.out.println("구글 회원가입 오류 : "+e.toString());
+			return -1;
+		}
+	}
+	public KaKao selectGoogleMember(String googleid) {
+		try {
+			return session.selectOne("memberMapper.selectKakaoMember", googleid);
+		}catch(Exception e) {
+			System.out.println("구글 회원 정보 호출 오류 : "+e.toString());
+			return null;
+		}
+	}
+	public int enrollNaver(KaKao member) {
+		try {
+			return session.insert("memberMapper.enrollKaKao" ,member);
+		}catch(Exception e) {
+			System.out.println("네이버 회원가입 오류 : "+e.toString());
+			return -1;
+		}
+	}
+	
+	public KaKao selectNaverMember(String googleid) {
+		try {
+			return session.selectOne("memberMapper.selectKakaoMember", googleid);
+		}catch(Exception e) {
+			System.out.println("네이버 회원 정보 호출 오류 : "+e.toString());
+			return null;
+		}
+	}
 }

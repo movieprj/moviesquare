@@ -1,7 +1,5 @@
 package com.together.moviesquare.member.dao;
 
-import javax.websocket.Session;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

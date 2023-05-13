@@ -42,4 +42,9 @@ public class HomeController {
 		
 		return "common/main";  //내보낼 뷰파일명 리턴
 	}
+	
+	@RequestMapping("admin")
+	public String adminMainView() {
+		return "common/adminMain";
+	}
 }

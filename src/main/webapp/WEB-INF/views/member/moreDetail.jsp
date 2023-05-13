@@ -9,7 +9,7 @@
 <h1>
 	성별, 연령대를 입력해주세요.
 </h1>
-<form action="/socialMoreInfo.do" method="post">
+<form action="/moviesquare/socialMoreInfo.do" method="post">
 	<input type="hidden" name="kakaoid" value="${ sub }">
 	<input type="hidden" name="m_nickname" value="${ name }">
 <select name="m_gender">

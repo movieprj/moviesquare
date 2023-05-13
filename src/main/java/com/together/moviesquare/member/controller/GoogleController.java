@@ -142,6 +142,17 @@ public class GoogleController {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode userInfo = mapper.readTree(resultJson2.getBody());
         JsonNode idInfo = mapper.readTree(resultJson);
+        sub = idInfo.get("sub").toString().replaceAll("\"", "");
+        name = idInfo.get("name").toString().replaceAll("\"", "");
+        
+        //있는사람이면 넘기기
+        KaKao loginMember = service.selectGoogleMember(sub);
+        if (loginMember != null) {
+        	log.info("login정보 : "+ loginMember);
+    		loginSession.setAttribute("loginMember", loginMember);
+    		status.setComplete();
+    		return "../../index";
+        }
         
         //
         String gender = userInfo.get("genders").get(0).get("value").toString();
@@ -159,11 +170,10 @@ public class GoogleController {
 		}else {
 			gender = "F";
 		}
-        sub = idInfo.get("sub").toString().replaceAll("\"", "");
-        name = idInfo.get("name").toString().replaceAll("\"", "");
+
         
         KaKao member = new KaKao(name, gender, "N", "Y", sub, agecode);
-        KaKao loginMember = service.selectGoogleMember(member.getKakaoid());
+        //KaKao loginMember = service.selectGoogleMember(member.getKakaoid());
 		log.info("login정보 : "+ loginMember);
 		if(loginMember ==null && service.enrollGoogle(member)>0) {
 			log.info("회원가입 성공");

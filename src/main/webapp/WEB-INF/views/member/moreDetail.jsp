@@ -30,7 +30,7 @@
     <option value="A8">80~89</option>
     <option value="A9">90~99</option>
 </select>
-
+	<input type="submit">
 </form>
 
 </body>

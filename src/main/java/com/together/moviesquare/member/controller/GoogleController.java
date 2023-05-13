@@ -19,7 +19,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
@@ -96,8 +98,10 @@ public class GoogleController {
     @GetMapping(value = "googleLoginCallback.do")
     public String oauth_google_check(HttpServletRequest request,
                                      @RequestParam(value = "code") String authCode,
-                                     HttpServletResponse response,HttpSession loginSession, SessionStatus status) throws Exception{
+                                     HttpServletResponse response,HttpSession loginSession, SessionStatus status, Model model) throws Exception{
 
+    	String sub = "";
+    	String name ="";
         //2.구글에 등록된 레드망고 설정정보를 보내어 약속된 토큰을 받위한 객체 생성
         GoogleOAuthRequest googleOAuthRequest = GoogleOAuthRequest
                 .builder()
@@ -120,6 +124,9 @@ public class GoogleController {
 
         String googleToken = googleLoginResponse.getId_token();
 
+        try {
+        
+        
         //5.받은 토큰을 구글에 보내 유저정보를 얻는다.
         String requestUrl = UriComponentsBuilder.fromHttpUrl(googleAuthUrl + "/tokeninfo").queryParam("id_token",googleToken).toUriString();
 
@@ -152,9 +159,10 @@ public class GoogleController {
 		}else {
 			gender = "F";
 		}
+        sub = idInfo.get("sub").toString().replaceAll("\"", "");
+        name = idInfo.get("name").toString().replaceAll("\"", "");
         
-        
-        KaKao member = new KaKao(idInfo.get("name").toString().replaceAll("\"", ""), gender, "N", "Y", idInfo.get("sub").toString().replaceAll("\"", ""), agecode);
+        KaKao member = new KaKao(name, gender, "N", "Y", sub, agecode);
         KaKao loginMember = service.selectGoogleMember(member.getKakaoid());
 		log.info("login정보 : "+ loginMember);
 		if(loginMember ==null && service.enrollGoogle(member)>0) {
@@ -169,10 +177,34 @@ public class GoogleController {
 		status.setComplete();
 		return "../../index";
         
-        //return resultJson+googleLoginResponse.toString()+ resultJson2;
+        } catch (Exception e) {
+        	
+        	model.addAttribute("sub", sub);
+        	model.addAttribute("name", name);
+			return "member/moreDetail";
+        	
+		}
+		
+		
+		//return resultJson+googleLoginResponse.toString()+ resultJson2;
+		
     }
 	
-	
+	@PostMapping("socialMoreInfo.do")
+	public String register2(Model model, KaKao member, HttpSession loginSession, SessionStatus status) {
+
+		if(service.enrollGoogle(member)>0) {
+			log.info("회원가입 성공");
+		}else {
+			log.info("회원가입 실패");
+		}
+		
+		log.info("login정보 : "+ member);
+		loginSession.setAttribute("loginMember", member);
+		status.setComplete();
+		
+		return "index";
+	}
 
     
     

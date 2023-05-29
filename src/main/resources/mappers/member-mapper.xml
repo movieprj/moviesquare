@@ -40,6 +40,10 @@ select * from Member where m_email=#{m_id}
 <select id="selectKakaoMember" parameterType="string" resultMap="KakaoresultList">
 select * from Member where SOCAL_ID=#{SOCAL_ID}
 </select>
+<!-- 소셜 로그인 제한 여부에 따라 로그인 성공 처리 -->
+<select id="selectSocalloginOk" parameterType="string" resultMap="KakaoresultList">
+select * from member where SOCAL_ID=#{SOCAL_ID} and LOGIN_OK = 'Y'
+</select>
 <!-- 구글 회원가입 -->
 <insert id="enrollGoogle" parameterType="KaKao">
 insert into member (m_nickname,m_gender,admin,login_ok,SOCAL_ID,agecode)

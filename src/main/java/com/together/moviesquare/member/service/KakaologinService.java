@@ -10,7 +10,11 @@ public interface KakaologinService {
 	JsonNode getKakaoUserInfo(JsonNode accessToken) ;
 
 	int enroll(KaKao member);
-
+	
+	KaKao selectKakaoMember(String kakaoid);
+	
+	KaKao selectSocalloginOk(String kakaoid);
+	
 	KaKao selectMember(String kakaoid);
 	
 	//google
@@ -21,5 +25,9 @@ public interface KakaologinService {
 	KaKao selectGoogleMember(String kakaoid);
 
 	KaKao selectNaverMember(String kakaoid);
+
+	
+
+	
 	
 }

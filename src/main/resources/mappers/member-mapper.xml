@@ -34,7 +34,7 @@ values(#{m_nickname},#{m_gender},default,default,#{kakaoid},(select AGECODE from
 </insert>
 <!-- 로그인시 아이디로 정보 가져오기 -->
 <select id="selectMember" parameterType="string" resultType="Member">
-select * from Member where m_email=#{m_id}
+select * from Member where m_email=#{m_id} and LOGIN_OK = 'Y'
 </select>
 <!-- 카카오 로그인시 아이디로 정보 가져오기 -->
 <select id="selectKakaoMember" parameterType="string" resultMap="KakaoresultList">

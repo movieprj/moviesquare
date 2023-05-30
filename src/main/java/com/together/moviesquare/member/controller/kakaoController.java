@@ -66,11 +66,13 @@ public class kakaoController {
 		
 		logger.info(nick+", " + gender + ", " + agecode );
 		KaKao member = new KaKao(nick, gender, "N", "Y", userInfo.get("id").toString(), age);
-		KaKao loginMember = service.selectMember(member.getKakaoid());
+		KaKao loginMember = service.selectKakaoMember(member.getKakaoid());
 		logger.info("login정보 : "+ loginMember);
-		if(loginMember ==null && service.enroll(member)>0) {
+		if(loginMember == null && service.enroll(member)>0) {
 			logger.info("회원가입 성공");
-			loginMember = service.selectMember(member.getKakaoid());
+			loginMember = service.selectKakaoMember(member.getKakaoid());
+		}else if(service.selectSocalloginOk(loginMember.getKakaoid()) == null){	//로그인 ok 확인 후 N인 경우 loginmember를 null로 지정하여 로그인 실패 처리
+			loginMember = null;
 		}else {
 			logger.info("회원가입 실패");
 		}

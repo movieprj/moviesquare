@@ -102,11 +102,6 @@ public class KakaologinServiceImpl implements KakaologinService{
 	}
 
 	@Override
-	public KaKao selectMember(String kakaoid) {
-		return dao.selectKakaoMember(kakaoid);
-	}
-
-	@Override
 	public int enrollGoogle(KaKao member) {
 		return dao.enrollGoogle(member);
 	}
@@ -124,5 +119,20 @@ public class KakaologinServiceImpl implements KakaologinService{
 	@Override
 	public KaKao selectNaverMember(String kakaoid) {
 		return dao.selectNaverMember(kakaoid);
+	}
+
+	@Override
+	public KaKao selectKakaoMember(String kakaoid) {
+		return dao.selectKakaoMember(kakaoid);
+	}
+
+	@Override
+	public KaKao selectSocalloginOk(String id) {
+		return dao.selectSocalloginOk(id);
+	}
+	
+	@Override
+	public KaKao selectMember(String kakaoid) {
+		return dao.selectKakaoMember(kakaoid);
 	}
 }

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import com.together.moviesquare.member.vo.KaKao;
 import com.together.moviesquare.member.vo.Member;
 
+import lombok.extern.java.Log;
+
+@Log
 @Repository("memberDao")
 public class MemberDao {
 	@Autowired
@@ -19,6 +22,7 @@ public class MemberDao {
 	}
 	public int enroll(Member member) {
 		try {
+			log.info("Member 회원가입");
 		return session.insert("memberMapper.enroll" ,member);
 		}catch(Exception e) {
 			return -1;
@@ -30,6 +34,7 @@ public class MemberDao {
 	//kakaoid는 소셜아이디이므로 멤버 테이블의 SOCAL_ID 컬럼에 넣어줌
 	public int enroll(KaKao member) {
 		try {
+			log.info("카카오 회원가입");
 			return session.insert("memberMapper.enrollKaKao" ,member);
 		}catch(Exception e) {
 			System.out.println("카카오 회원가입 오류 : "+e.toString());
@@ -76,6 +81,14 @@ public class MemberDao {
 			return session.selectOne("memberMapper.selectKakaoMember", googleid);
 		}catch(Exception e) {
 			System.out.println("네이버 회원 정보 호출 오류 : "+e.toString());
+			return null;
+		}
+	}
+	public KaKao selectSocalloginOk(String id) {
+		try {
+			return session.selectOne("memberMapper.selectSocalloginOk", id);
+		}catch(Exception e) {
+			System.out.println("소셜 아이디 정보 호출 오류 : "+e.toString());
 			return null;
 		}
 	}

@@ -8,4 +8,6 @@ public interface AdminService {
 
 	public List<Member> selAllMember();
 
+	public int updateLoginok(Member member);
+
 }

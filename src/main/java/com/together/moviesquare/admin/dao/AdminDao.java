@@ -25,5 +25,16 @@ public class AdminDao {
 			return null;
 		}
 		return mem;
+	}
+
+	public int updateLoginok(Member member) {
+		int result = 0;
+		try {
+			result = session.update("adminMapper.updateLoginOK", member);
+		}catch(Exception e) {
+			return -1;
+		}finally {
+			return result;
+		}
 	} 
 }

@@ -7,7 +7,12 @@
 
 <!-- 회원 정보 전체 호출 -->
 <select id="memAll" resultType="Member">
-	select * from member
+	select * from member where admin = 'N'
 </select>
-
+<!-- 회원 로그인여부 변경 -->
+<update id="updateLoginOK" parameterType="Member">
+	update member
+	set login_ok = #{ login_ok }
+	where m_nickname = #{ m_nickname }
+</update>
 </mapper>

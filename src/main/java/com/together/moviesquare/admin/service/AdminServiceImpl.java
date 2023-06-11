@@ -19,4 +19,9 @@ public class AdminServiceImpl implements AdminService {
 		return mem;
 	}
 
+	@Override
+	public int updateLoginok(Member member) {
+		return dao.updateLoginok(member);
+	}
+
 }

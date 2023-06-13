@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.together.moviesquare.admin.dao.AdminDao;
 import com.together.moviesquare.member.vo.Member;
+import com.together.moviesquare.movie.vo.Movie;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService {
@@ -22,6 +23,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int updateLoginok(Member member) {
 		return dao.updateLoginok(member);
+	}
+
+	@Override
+	public int updateCost(Movie movie) {
+		return dao.updateCost(movie);
 	}
 
 }

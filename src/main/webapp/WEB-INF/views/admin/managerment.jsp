@@ -51,32 +51,34 @@ function changeLogin(element){
         <tbody>                   
            <c:forEach items="${ requestScope.member }" var="m">
             <tr>
-            	<c:if test="${m.login_ok eq 'Y' }">
-            		<c:if test="${ !empty m.m_nickname && !empty m.m_name}">
-		                <td>${ m.m_name }</td>
-		                <td>${m.m_nickname }</td>
+            	<td>
+	            	<c:if test="${m.login_ok eq 'Y' }">
+	            		<c:if test="${ !empty m.m_nickname && !empty m.m_name}">
+			                <td>${ m.m_name }</td>
+			                <td>${m.m_nickname }</td>
+			            </c:if>
+	            		<c:if test="${ empty m.m_nickname && empty m.m_name }">
+			                <td>이름 없음</td>
+			                <td>닉네임 없음</td>
+			            </c:if>
+	            		<c:if test="${ empty m.m_name }">
+			                <td>이름 없음</td>
+			                <td>${m.m_nickname }</td>
+			            </c:if>
+			            <c:if test="${ empty m.m_nickname }">
+			                <td>${ m.m_name }</td>
+			                <td>닉네임 없음</td>
+			            </c:if>
+		                <td>
+		                	<c:if test="${ m.m_gender eq 'M'}">
+		                		<td>남자</td>
+		                	</c:if>
+		                	<c:if test="${ m.m_gender eq 'F'}">
+		                		<td>여자</td>
+		                	</c:if>
+		                </td>
 		            </c:if>
-            		<c:if test="${ empty m.m_nickname && empty m.m_name }">
-		                <td>이름 없음</td>
-		                <td>닉네임 없음</td>
-		            </c:if>
-            		<c:if test="${ empty m.m_name }">
-		                <td>이름 없음</td>
-		                <td>${m.m_nickname }</td>
-		            </c:if>
-		            <c:if test="${ empty m.m_nickname }">
-		                <td>${ m.m_name }</td>
-		                <td>닉네임 없음</td>
-		            </c:if>
-	                <td>
-	                	<c:if test="${ m.m_gender eq 'M'}">
-	                		<td>남자</td>
-	                	</c:if>
-	                	<c:if test="${ m.m_gender eq 'F'}">
-	                		<td>여자</td>
-	                	</c:if>
-	                </td>
-	            </c:if>
+	            </td>
                 <td>
                 	<c:if test="${m.login_ok eq 'Y' }">
                     	<input type="radio"	name="login_ok_${m.m_nickname}" value="Y"  checked	onchange="changeLogin(this);"> 가능 &nbsp;

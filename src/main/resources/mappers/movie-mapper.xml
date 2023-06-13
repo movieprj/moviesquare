@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="movieMapper">
+	<!-- 영화 목록 전체 조회 -->
+	<select id="selAllMovie" resultType="Movie">
+		<![CDATA[
+			SELECT ID,MOVIEID,POSTERS,TITLE,ACTORS,DIRECTOR,STAFFS,COMPANY,DISTRIBUTOR,GENRE,TYPE,RUNTIME,RATING,NATION,REPRLSDATE,KEYWORDS,COST,AUDIACC,SALESACC
+			  FROM (
+			        SELECT ROWNUM,ID,MOVIEID
+			             , case when posters is not null then SUBSTR(posters, 1, INSTR(posters, '|') - 1) else '' end AS "POSTERS"
+			             , TITLE,ACTORS,DIRECTOR,STAFFS,COMPANY,DISTRIBUTOR,GENRE,TYPE,RUNTIME,RATING,NATION
+			             , REPRLSDATE
+			             , KEYWORDS
+			             , case when cost is null then '0' else cost end as cost
+			             ,AUDIACC,SALESACC
+			          FROM MOVIE
+			         ORDER BY REPRLSDATE DESC NULLS LAST 
+			        )
+			 WHERE 1=1
+			   AND ROWNUM<500
+		]]>
+	</select>
+</mapper>
+
+
+
+
+
+
+

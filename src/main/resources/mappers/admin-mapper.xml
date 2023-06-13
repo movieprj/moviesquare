@@ -15,4 +15,10 @@
 	set login_ok = #{ login_ok }
 	where m_nickname = #{ m_nickname }
 </update>
+<!-- 영화 제작비 입력 -->
+<update id="updateCost" parameterType="Movie">
+	UPDATE MOVIE
+	   SET COST = #{ cost }
+	 WHERE id = #{ id }
+</update>
 </mapper>

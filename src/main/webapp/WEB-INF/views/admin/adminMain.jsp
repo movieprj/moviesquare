@@ -13,7 +13,7 @@
 	<div>
 		<h2><a href ="adminMem.do">1. 회원 관리</a></h2>
 		<br>
-		<h2>2. 제작비 추가</h2>
+		<h2><a href ="movieCost.do">2. 제작비 추가</h2>
 		<br>
 		<button onclick="javascript:location.href='adminlogout.do';">로그아웃</button>
 	</div>

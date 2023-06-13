@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.together.moviesquare.member.vo.Member;
+import com.together.moviesquare.movie.vo.Movie;
 
 import lombok.extern.java.Log;
 
@@ -31,6 +32,17 @@ public class AdminDao {
 		int result = 0;
 		try {
 			result = session.update("adminMapper.updateLoginOK", member);
+		}catch(Exception e) {
+			return -1;
+		}finally {
+			return result;
+		}
+	}
+
+	public int updateCost(Movie movie) {
+		int result = 0;
+		try {
+			result = session.update("adminMapper.updateCost", movie);
 		}catch(Exception e) {
 			return -1;
 		}finally {

@@ -80,6 +80,6 @@ public class kakaoController {
 		logger.info("login정보 : "+ loginMember);
 		loginSession.setAttribute("loginMember", loginMember);
 		status.setComplete();
-		return "../../index";
+		return "redirect:main.do";
 	}
 }

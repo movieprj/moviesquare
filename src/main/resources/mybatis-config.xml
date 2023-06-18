@@ -18,5 +18,6 @@
 		<mapper resource="mappers/member-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
 		<mapper resource="mappers/movie-mapper.xml" />
+		<mapper resource="mappers/views-mapper.xml" />
 	</mappers>
 </configuration>

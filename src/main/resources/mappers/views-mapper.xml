@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="viewsMapper">
+
+<!-- 검색한 키워드가 존재하지 않을경우 MOVIE_KEYWORD 테이블에 삽입후 VIEWS 1로 초기화, 존재할경우 해당하는 키워드 조회수 1증가 -->
+<insert id="insertKeyword" parameterType="string">
+  MERGE INTO MOVIE_KEYWORD
+  USING (SELECT #{keyword} AS KEYWORD FROM DUAL) DUAL
+  ON (MOVIE_KEYWORD.KEYWORD = DUAL.KEYWORD)
+  WHEN MATCHED THEN
+    UPDATE SET VIEWS = VIEWS + 1
+  WHEN NOT MATCHED THEN
+    INSERT (KEYWORD, VIEWS) VALUES (DUAL.KEYWORD, 1)
+</insert>
+
+<!--  로그인한 유저일 경우 입력한 키워드에 제목을 포함하는 MOVIE_ID를 찾아 로그인한 유저의 AGE_CD와 GENDER와 함께 MOVIE_MEMVIEWS테이블에 입력(MOVIE_ID가 여러개일수도 있음) -->
+<insert id="insertMovieMemViews" parameterType="map">
+  INSERT INTO MOVIE_MEMVIEWS (VIEWS_ID, MOVIE_ID, AGE_CD, GENDER)
+  SELECT SEQ_MEMVIEWS.nextval ,MOVIEID, UPPER(#{ageCd}), UPPER(#{gender}) FROM MOVIE
+  WHERE MOVIEID IN (
+    SELECT MOVIEID FROM MOVIE
+    WHERE TITLE LIKE '%' || #{keyword} || '%'
+  )
+</insert>
+
+<!--  로그인한 유저가 아닐경우 키워드에 제목을 포함하는 MOVIE_ID를 찾아 존재하지 않을경우 MOVIE_NONMEMVIEWS 테이블에 삽입후 VIEWS 1로 초기화, 존재할경우 해당하는 VIEWS 1증가 (MOVIE_ID가 여러개일수도 있음) -->
+<insert id="insertMovieNonMemViews" parameterType="string">
+    MERGE INTO MOVIE_NONMEMVIEWS
+  USING (
+    SELECT MOVIEID FROM MOVIE
+    WHERE TITLE LIKE '%' || #{keyword} || '%'
+  ) MOVIE
+  ON (MOVIE_NONMEMVIEWS.MOVIE_ID = MOVIE.MOVIEID)
+  WHEN MATCHED THEN
+    UPDATE SET VIEWS = VIEWS + 1
+  WHEN NOT MATCHED THEN
+    INSERT (MOVIE_ID, VIEWS) VALUES (MOVIE.MOVIEID, 1)
+</insert>
+
+
+</mapper>

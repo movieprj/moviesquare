@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="resources/css/enroll.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 //회원가입 유효성 검사
@@ -153,42 +155,59 @@ function validate(){
 </head>
 <body>
 <form action="memenroll.do" method="post" onsubmit="return validate();">
-	<div class="">
-		<h3 align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입 페이지</h3><br>
-		
-		<div class="">
-			<input class="email" type="text" name="m_email" id="m_email" placeholder="*이메일 작성해주세요." required><br>
-			 <span id="emailMsg"></span>
-			 <input class="idCheckBtn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼">
-		</div>
-		<div class="">
-			<input class="certification" id = "ceMailcertification" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6" oninput="mailCertification();" required><br>
-			<span id="emailCertificationMsg"></span>
-		</div>
-		<div class="">
-			<input class="pwd" type="password" name="m_pw" id="m_pw" oninput="dupCheckPw();" placeholder="*비밀번호를 입력해주세요." required><br>
-			 <span id="pwdMsg"></span>
-		</div>
-		<div class="">
-			<input class="vpwd" type="password" name="v_pw" id="v_pw" oninput="verifyPWD();" placeholder="*비밀번호를 한번 더 입력해주세요." required><br>
-			 <span id="vPwdMsg"></span>
-		</div>
-		<div class="">
-			<input class="name" type="text" name="m_name" id="m_name" placeholder="*이름을 입력해 주세요" required><br>
-		</div>
-		<div class="">
-			<input class="nick" type="text" name="m_nickname" id="m_nickname" oninput="dupCheckNick();" placeholder="*닉네임를 입력해주세요." required><br>
-			 <span id="nickMsg"></span>
-		</div>
-		<div class="">
-			<input class="gender" type="radio" name="m_gender" value="M" checked> 남자 &nbsp;
-			<input class="gender" type="radio" name="m_gender" value="F"> 여자
-		</div>
-		<div class="">
-			<input class="birth" type="date" name="m_birthday" id="m_birthday" required><br>
-		</div>
-		<div>
-			<input class="submit" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>
+	<div class="wrap">
+		<div class="login">
+			<h3 text-align="center" style="font-family: 'Noto Sans KR', sans-serif; font-size : 40px">회원 가입</h3><br>
+			
+			<div class="textForm2">
+				<!--이메일 입력-->
+				<input class="m_email" type="text" name="m_email" id="m_email" placeholder="*이메일을 입력해주세요." required><br>
+				<div class="emailchk">
+					<input class="bttn" type="button" onclick="emailChk();" value="이메일 중복 확인 버튼"> <span id="emailMsg"></span>
+				</div>
+			</div>
+			<!-- 인증번호 확인-->
+			<div class="textForm">
+				<input class="pw" id = "ceMailcertification" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6" oninput="mailCertification();" required><br>
+				<span id="emailCertificationMsg"></span>
+			</div>
+			<!--비밀번호 확인-->
+			<div class="textForm">
+				<input class="pw" type="password" name="m_pw" id="m_pw" oninput="dupCheckPw();" placeholder="*비밀번호를 입력해주세요." required><br>
+				 <span id="pwdMsg"></span>
+			</div>
+			<!--비밀번호 재확인-->
+			<div class="textForm">
+				<input class="pw" type="password" name="v_pw" id="v_pw" oninput="verifyPWD();" placeholder="*비밀번호 확인" required><br>
+			    <span id="vPwdMsg"></span>
+			</div>
+			<!--이름 입력-->
+			<div class="textForm">
+				<input class="id" type="text" name="m_name" id="m_name" placeholder="*이름을 입력해 주세요" required><br>
+			</div>
+			<!--닉네임 중복확인-->
+			<div class="textForm">
+				<input class="id" type="text" name="m_nickname" id="m_nickname" oninput="dupCheckNick();" placeholder="*닉네임를 입력해주세요." required><br>
+				<span id="nickMsg"></span>
+			</div>
+			<!--성별 선택 -->
+			<div class="textForm3">
+				<input type="gender" class="gender" name="gender" id="gender" placeholder="*성별을 선택하세요." disabled>
+				<div class="genderchk">
+					<input class="bttn2" type="radio" name="m_gender" value="M" checked> <span id="genderstatus">남</span>
+					<input class="bttn3" type="radio" name="m_gender" value="F"> <span id="genderstatus">여</span>
+				</div>
+			</div>
+			<!--생년월일 확인-->
+			<div class="textForm3">
+				<input type="birthday" class="birthday" name="birthday" id="birthday" placeholder="*생년월일을 선택하세요." disabled>
+				<div class="genderchk">
+					<input type="date" class="bttn2" value="male" name="m_birthday" id="m_birthday" required> <span id="birthdaystauts"></span>
+				</div>
+			</div>
+			<div>
+				<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>
+			</div>
 		</div>
 	</div>
 </form>

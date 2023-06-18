@@ -47,4 +47,14 @@ public class HomeController {
 	public String adminMainView() {
 		return "common/adminMain";
 	}
+	
+	@RequestMapping("about.do")
+	public String aboutView() {
+		return "common/about";
+	}
+	
+	@RequestMapping("contactus.do")
+	public String contactusView() {
+		return "common/contactus";
+	}
 }

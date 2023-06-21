@@ -11,7 +11,7 @@
 	
 	
 	<div>
-		<h2><a href ="adminMem.do">1. 회원 관리</a></h2>
+		<h2><a href ="mlist.do">1. 회원 관리</a></h2>
 		<br>
 		<h2><a href ="movieCost.do">2. 제작비 추가</h2>
 		<br>

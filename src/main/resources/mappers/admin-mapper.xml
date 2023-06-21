@@ -4,11 +4,19 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminMapper">
 
+<resultMap type="Member" id="resultList">
+	<result property="m_pw" column="m_pw"/>
+	<result property="m_name" column="m_name"/>
+	<result property="m_nickname" column="m_nickname"/>
+	<result property="m_email" column="m_email"/>
+	<result property="m_gender" column="m_gender"/>
+	<result property="m_birthday" column="m_birthday"/>
+	<result property="admin" column="admin"/>
+	<result property="login_ok" column="login_ok"/>
+	<result property="agecode" column="agecode"/>
+	<result property="socal_id" column="socal_id"/>
+</resultMap>
 
-<!-- 회원 정보 전체 호출 -->
-<select id="memAll" resultType="Member">
-	select * from member where admin = 'N'
-</select>
 <!-- 회원 로그인여부 변경 -->
 <update id="updateLoginOK" parameterType="Member">
 	update member
@@ -21,4 +29,39 @@
 	   SET COST = #{ cost }
 	 WHERE id = #{ id }
 </update>
+
+<!-- 멤버 전체 회원수 조회 -->
+<select id="getListCount" resultType="_int">
+	select count(*) from member where m_nickname != '관리자'
+</select>
+
+<select id="selectList" parameterType="Paging" resultMap="resultList">
+	<![CDATA[
+		SELECT *  
+		FROM (SELECT ROWNUM RNUM, M_EMAIL, AGECODE, M_PW, SOCAL_ID, M_NAME, M_NICKNAME, M_GENDER, M_BIRTHDAY, ADMIN, LOGIN_OK
+		       FROM (SELECT * FROM MEMBER where M_NICKNAME != '관리자'
+		              ORDER BY M_NICKNAME DESC))  
+		where rnum >= #{startRow} and rnum <= #{endRow}
+	]]>
+</select>
+
+<!-- admin 회원정보 조회 -->
+<select id="userIDSearchCount" parameterType="string" resultType="_int">
+	select count(*)
+	  from member
+	 where M_NICKNAME like '%' || #{ keyword } || '%'
+	   and M_NICKNAME != '관리자'
+</select>
+	
+<select id="userIDSearch" parameterType="SearchPaging" resultMap="resultList">
+<![CDATA[
+	select *  
+		from (select ROWNUM RNUM, M_EMAIL, AGECODE, M_PW, SOCAL_ID, M_NAME, M_NICKNAME, M_GENDER, M_BIRTHDAY, ADMIN, LOGIN_OK
+			    from (select * from member
+			     	   where M_NICKNAME like '%' || #{ keyword } || '%'
+			       		 and M_NICKNAME != '관리자'
+			           order by M_NICKNAME desc )) 
+			where rnum >= #{startRow} and rnum <= #{endRow}
+]]>
+</select>
 </mapper>

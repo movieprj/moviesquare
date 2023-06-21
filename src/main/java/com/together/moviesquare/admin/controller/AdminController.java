@@ -1,6 +1,6 @@
 package com.together.moviesquare.admin.controller;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,10 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.together.moviesquare.admin.service.AdminService;
+import com.together.moviesquare.common.Paging;
+import com.together.moviesquare.common.SearchPaging;
 import com.together.moviesquare.member.service.MemberService;
 import com.together.moviesquare.member.vo.Member;
 import com.together.moviesquare.movie.service.MovieService;
@@ -78,19 +82,163 @@ public class AdminController {
 	}
 	
 	//회원 관리 페이지 이동
-	@RequestMapping("adminMem.do")
-	public String memberManagement(Model model) {
-		List<Member> member = service.selAllMember();
-		model.addAttribute("member", member);
-		return "admin/managerment";
+	@RequestMapping("mlist.do")
+	public ModelAndView memberListViewMethod(@RequestParam(name="page", required=false) String page, ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+		int limit = 10;  
+		int listCount = service.selectListCount();
+		int maxPage = (int)((double)listCount / limit + 0.9);
+		int startPage = (currentPage%10==0)? currentPage-9 :  (currentPage / 10) * 10 + 1 ;
+		int endPage = startPage + 10 - 1;
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		Paging paging = new Paging(startRow, endRow);
+		log.info("확인"+ listCount+", " + paging.toString());
+		//페이징 계산 처리 끝 ---------------------------------------
+		ArrayList<Member> list = service.selectList(paging);
+		log.info("확인2"+ list.toString());
+		if(list != null && list.size() > 0) {
+			mv.addObject("list", list);
+			mv.addObject("listCount", listCount);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startPage", startPage);
+			mv.addObject("endPage", endPage);
+			mv.addObject("limit", limit);
+			mv.setViewName("admin/managerment");
+		}else {
+			mv.addObject("message", currentPage + " 회원 목록 조회 실패.");
+			mv.setViewName("common/error");
+		}
+		return mv;
+	}
+	
+	//admin 회원관리(회원닉네임 검색)
+	@RequestMapping("msearchId.do")
+	public ModelAndView userIDMethod(@RequestParam("keyword") String keyword, @RequestParam(name="page", required=false) String page, ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+		
+		int limit = 10;
+		int listCount = service.userIDSearchCount(keyword);
+		int maxPage = (int)((double)listCount / limit + 0.9);
+		int startPage = (currentPage%10==0)? currentPage-9 :  (currentPage / 10) * 10 + 1 ;
+		int endPage = startPage + 10 - 1;
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
+		//페이징 계산 처리 끝 ---------------------------------------
+		SearchPaging searchpaging = new SearchPaging(keyword, startRow, endRow);
+		
+		ArrayList<Member> list = service.userIDSearch(searchpaging);
+		
+		if(list != null && list.size() > 0) {
+			mv.addObject("list", list);
+			mv.addObject("listCount", listCount);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startPage", startPage);
+			mv.addObject("endPage", endPage);
+			mv.addObject("limit", limit);
+			mv.addObject("action", "userid");
+			mv.setViewName("admin/managerment");
+		}else {
+			mv.addObject("message", 
+					currentPage + " 회원 목록 조회 실패.");
+			mv.setViewName("common/error");
+		}
+		return mv;
 	}
 	
 	//영화 제작비 추가 페이지
 	@RequestMapping("movieCost.do")
-	public String movieCost(Model model) {
-		List<Movie> movies = movieservice.selAllMovie();
-		model.addAttribute("movies", movies);
-		return "admin/moviecost";
+	public ModelAndView movieCost(@RequestParam(name="page", required=false) String page, ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+		int limit = 10;  
+		int listCount = movieservice.selectListCount();
+		int maxPage = (int)((double)listCount / limit + 0.9);
+		int startPage = (currentPage%10==0)? currentPage-9 :  (currentPage / 10) * 10 + 1 ;
+		int endPage = startPage + 10 - 1;
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		Paging paging = new Paging(startRow, endRow);
+		//페이징 계산 처리 끝 ---------------------------------------
+		ArrayList<Movie> list = movieservice.selectList(paging);
+		if(list != null && list.size() > 0) {
+			mv.addObject("list", list);
+			mv.addObject("listCount", listCount);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startPage", startPage);
+			mv.addObject("endPage", endPage);
+			mv.addObject("limit", limit);
+			mv.setViewName("admin/moviecost");
+		}else {
+			mv.addObject("message", currentPage + " 영화 제작비 호출 오류.");
+			mv.setViewName("common/error");
+		}
+		return mv;
+	}
+	
+	//영화 제작비 추가 페이지(영화 제목 검색)
+	@RequestMapping("moviesearchName.do")
+	public ModelAndView movieSearchMethod(@RequestParam("keyword") String keyword, @RequestParam(name="page", required=false) String page, ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+		
+		int limit = 10;
+		int listCount = movieservice.selectSearchListCount(keyword);
+		int maxPage = (int)((double)listCount / limit + 0.9);
+		int startPage = (currentPage%10==0)? currentPage-9 :  (currentPage / 10) * 10 + 1 ;
+		int endPage = startPage + 10 - 1;
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
+		//페이징 계산 처리 끝 ---------------------------------------
+		SearchPaging searchpaging = new SearchPaging(keyword, startRow, endRow);
+		
+		ArrayList<Movie> list = movieservice.selectSearchList(searchpaging);
+		
+		if(list != null && list.size() > 0) {
+			mv.addObject("list", list);
+			mv.addObject("listCount", listCount);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startPage", startPage);
+			mv.addObject("endPage", endPage);
+			mv.addObject("limit", limit);
+			mv.addObject("action", "userid");
+			mv.setViewName("admin/moviecost");
+		}else {
+			mv.addObject("message", 
+					currentPage + " 회원 목록 조회 실패.");
+			mv.setViewName("common/error");
+		}
+		return mv;
 	}
 	
 	//영화 제작비 입력 ajax

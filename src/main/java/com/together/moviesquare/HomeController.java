@@ -42,6 +42,15 @@ public class HomeController {
 		
 		return "common/main";  //내보낼 뷰파일명 리턴
 	}
+
 	
+	@RequestMapping("about.do")
+	public String aboutView() {
+		return "common/about";
+	}
 	
+	@RequestMapping("contactus.do")
+	public String contactusView() {
+		return "common/contactus";
+	}
 }

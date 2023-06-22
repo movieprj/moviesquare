@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="movieMapper">
+<resultMap type="Movie" id="resultList">
+	<result property="id" column="id"/>
+	<result property="movieid" column="movieid"/>
+	<result property="posters" column="posters"/>
+	<result property="title" column="title"/>
+	<result property="actors" column="actors"/>
+	<result property="director" column="director"/>
+	<result property="staffs" column="staffs"/>
+	<result property="company" column="company"/>
+	<result property="distributor" column="distributor"/>
+	<result property="genre" column="genre"/>
+	<result property="type" column="type"/>
+	<result property="runtime" column="runtime"/>
+	<result property="rating" column="rating"/>
+	<result property="nation" column="nation"/>
+	<result property="reprlsdate" column="reprlsdate"/>
+	<result property="keywords" column="keywords"/>
+	<result property="cost" column="cost"/>
+	<result property="audiacc" column="audiacc"/>
+	<result property="salesacc" column="salesacc"/>
+</resultMap>
+
+
+<!-- 영화 전체 수 조회 -->
+<select id="selectListCount" resultType="_int">
+	select count(*) from movie
+</select>
+<!-- 영화 제작비 입력 페이징 처리 -->
+<select id="selectList" parameterType="Paging" resultMap="resultList">
+	<![CDATA[
+		SELECT ID, MOVIEID, POSTERS, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, COST, AUDIACC, SALESACC
+			FROM (
+			  SELECT ID, MOVIEID, SUBSTR(posters, 1, INSTR(posters, '|') - 1) AS POSTERS, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, NVL(cost, '0') AS COST, AUDIACC, SALESACC, ROWNUM AS rnum
+			  FROM (
+			    SELECT ID, MOVIEID, posters, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, cost, AUDIACC, SALESACC
+			    FROM MOVIE
+			    ORDER BY id DESC
+			  )
+			)
+			WHERE rnum >= #{startRow} and rnum <= #{endRow}
+			ORDER BY id DESC
+	]]>
+</select>
+
+<!-- 영화 제목 검색 -->
+<select id="selectSearchListCount" parameterType="string" resultType="_int">
+	select count(*) from movie where title like '%' || #{ keyword } || '%'
+</select>
+	
+<select id="selectSearchList" parameterType="SearchPaging" resultMap="resultList">
+<![CDATA[
+	SELECT ID, MOVIEID, POSTERS, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, COST, AUDIACC, SALESACC
+			FROM (
+			  SELECT ID, MOVIEID, SUBSTR(posters, 1, INSTR(posters, '|') - 1) AS POSTERS, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, NVL(cost, '0') AS COST, AUDIACC, SALESACC, ROWNUM AS rnum
+			  FROM (
+			    SELECT ID, MOVIEID, posters, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, cost, AUDIACC, SALESACC
+			    FROM MOVIE
+			    WHERE title like '%' || #{ keyword } || '%'
+			    ORDER BY id DESC
+			  )
+			)
+			WHERE rnum >= #{startRow} and rnum <= #{endRow}
+			ORDER BY id DESC
+]]>
+</select>
+</mapper>
+
+
+
+
+
+
+

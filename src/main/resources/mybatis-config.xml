@@ -11,11 +11,15 @@
 	<typeAliases>		
 		<typeAlias type="com.together.moviesquare.member.vo.Member" alias="Member" />
 		<typeAlias type="com.together.moviesquare.member.vo.KaKao" alias="KaKao" />
+		<typeAlias type="com.together.moviesquare.movie.vo.Movie" alias="Movie" />
+		<typeAlias type="com.together.moviesquare.common.Paging" alias="Paging" />
+		<typeAlias type="com.together.moviesquare.common.SearchPaging" alias="SearchPaging" />
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
+		<mapper resource="mappers/movie-mapper.xml" />
 		<mapper resource="mappers/views-mapper.xml" />
 	</mappers>
 </configuration>

@@ -13,9 +13,9 @@
 	<div>
 		<h2><a href ="mlist.do">1. 회원 관리</a></h2>
 		<br>
-		<h2><a href ="movieCost.do">2. 제작비 추가</h2>
+		<h2><a href ="movieCost.do">2. 제작비 추가</a></h2>
 		<br>
-		<button onclick="javascript:location.href='adminlogout.do';">로그아웃</button>
+		<h2><a href = "adminlogout.do">로그아웃</a></h2>
 	</div>
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.together.moviesquare.member.controller;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
@@ -93,7 +94,8 @@ public class GoogleController {
 	private static final List<String> SCOPES = Arrays.asList(PeopleServiceScopes.CONTACTS_READONLY);
     
 	
-    @GetMapping(value = "googleLoginCallback.do")
+	//old버전임
+    @GetMapping(value = "googleLoginCallback2.do") 
     public String oauth_google_check(HttpServletRequest request,
                                      @RequestParam(value = "code") String authCode,
                                      HttpServletResponse response,HttpSession loginSession, SessionStatus status) throws Exception{
@@ -172,7 +174,126 @@ public class GoogleController {
         //return resultJson+googleLoginResponse.toString()+ resultJson2;
     }
 	
+    @GetMapping(value = "googleLoginCallback.do")
+    public String oauth_google_check(HttpServletRequest request,
+                                     @RequestParam(value = "code") String authCode,
+                                     HttpServletResponse response,HttpSession loginSession, SessionStatus status, Model model) throws Exception{
+
+    	String sub = "";
+    	String name ="";
+        //2.구글에 등록된 레드망고 설정정보를 보내어 약속된 토큰을 받위한 객체 생성
+        GoogleOAuthRequest googleOAuthRequest = GoogleOAuthRequest
+                .builder()
+                .clientId(googleClientId)
+                .clientSecret(googleClientSecret)
+                .code(authCode)
+                .redirectUri(googleRedirectUrl)
+                .grantType("authorization_code")
+                .build();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        //3.토큰요청을 한다.
+        ResponseEntity<GoogleLoginResponse> apiResponse = restTemplate.postForEntity(googleAuthUrl + "/token", googleOAuthRequest, GoogleLoginResponse.class);
+        //4.받은 토큰을 토큰객체에 저장
+        GoogleLoginResponse googleLoginResponse = apiResponse.getBody();
+
+        log.info("responseBody {}"+googleLoginResponse.toString());
+
+
+        String googleToken = googleLoginResponse.getId_token();
+
+        try {
+        
+        
+        //5.받은 토큰을 구글에 보내 유저정보를 얻는다.
+        String requestUrl = UriComponentsBuilder.fromHttpUrl(googleAuthUrl + "/tokeninfo").queryParam("id_token",googleToken).toUriString();
+
+        String requestUrl2 = UriComponentsBuilder.fromHttpUrl("https://people.googleapis.com/v1/people/me").queryParam("personFields", "birthdays,genders").queryParam("key",api).toUriString();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer "+googleLoginResponse.getAccess_token());
+        
+        
+        //6.허가된 토큰의 유저정보를 결과로 받는다.
+        String resultJson = restTemplate.getForObject(requestUrl, String.class);
+        ResponseEntity<String> resultJson2 = restTemplate.exchange(requestUrl2, HttpMethod.GET, new HttpEntity<>(headers) , String.class);
+        
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode userInfo = mapper.readTree(resultJson2.getBody());
+        JsonNode idInfo = mapper.readTree(resultJson);
+        sub = idInfo.get("sub").toString().replaceAll("\"", "");
+        name = idInfo.get("name").toString().replaceAll("\"", "");
+        
+        //있는사람이면 넘기기
+        KaKao loginMember = service.selectGoogleMember(sub);
+        if (loginMember != null) {
+        	log.info("login정보 : "+ loginMember);
+    		loginSession.setAttribute("loginMember", loginMember);
+    		status.setComplete();
+    		return "../../index";
+        }
+        
+        //
+        String gender = userInfo.get("genders").get(0).get("value").toString();
+        String birthYear = userInfo.get("birthdays").get(0).get("date").get("year").toString();
+        
+        log.info(gender);
+        log.info(birthYear);
+        
+        LocalDate current_date = LocalDate.now();
+        int year = current_date.getYear();
+        String agecode = "A"+ String.valueOf((year-Integer.parseInt(birthYear))/10);
+        
+        if(gender.equals("male")){
+			gender = "M";
+		}else {
+			gender = "F";
+		}
+
+        
+        KaKao member = new KaKao(name, gender, "N", "Y", sub, agecode);
+        //KaKao loginMember = service.selectGoogleMember(member.getKakaoid());
+		log.info("login정보 : "+ loginMember);
+		if(loginMember ==null && service.enrollGoogle(member)>0) {
+			log.info("회원가입 성공");
+			loginMember = service.selectGoogleMember(member.getKakaoid());
+		}else {
+			log.info("회원가입 실패");
+		}
+		
+		log.info("login정보 : "+ loginMember);
+		loginSession.setAttribute("loginMember", loginMember);
+		status.setComplete();
+		return "../../index";
+        
+        } catch (Exception e) {
+        	
+        	model.addAttribute("sub", sub);
+        	model.addAttribute("name", name);
+			return "member/moreDetail";
+        	
+		}
+		
+		
+		//return resultJson+googleLoginResponse.toString()+ resultJson2;
+		
+    }
 	
+	@PostMapping("socialMoreInfo.do")
+	public String register2(Model model, KaKao member, HttpSession loginSession, SessionStatus status) {
+
+		if(service.enrollGoogle(member)>0) {
+			log.info("회원가입 성공");
+		}else {
+			log.info("회원가입 실패");
+		}
+		
+		log.info("login정보 : "+ member);
+		loginSession.setAttribute("loginMember", member);
+		status.setComplete();
+		
+		return "index";
+	}
 
     
     

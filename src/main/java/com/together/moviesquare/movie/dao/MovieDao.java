@@ -11,6 +11,7 @@ import com.together.moviesquare.common.Paging;
 import com.together.moviesquare.common.SearchPaging;
 import com.together.moviesquare.member.vo.Member;
 import com.together.moviesquare.movie.vo.Movie;
+import com.together.moviesquare.movie.vo.MovieResult;
 
 import lombok.extern.java.Log;
 
@@ -49,5 +50,10 @@ public class MovieDao {
 		}
 		return (ArrayList<Movie>)list;
 	} 
+	
+	public int mergeIntoMovieList(List<MovieResult> mList) {
+		return session.update("movieMapper.mergeIntoMovieList",mList);
+	}
+	
 	
 }

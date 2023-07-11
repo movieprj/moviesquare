@@ -57,6 +57,27 @@
 		    <version>${org.aspectj-version}</version>		    
 		</dependency>
 
+	<!-- webclient -->
+	<!-- https://mvnrepository.com/artifact/org.sprin	gframework/spring-webflux -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-webflux</artifactId>
+    <version>2.5.5</version>
+</dependency>
+		<!-- Gson 추가 -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
+<!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-core -->
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-core</artifactId>
+    <version>1.11.0</version>
+</dependency>
+
 		<!-- proxy 제어를 위한 cglib 추가 -->
 		<!-- https://mvnrepository.com/artifact/cglib/cglib -->
 		<dependency>
@@ -266,10 +287,10 @@
 		<!-- Jackson 사용한다면 -->
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.9.8</version>
-		</dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.0</version>
+</dependency>
 		<dependency>
 	     <groupId>com.google.api-client</groupId>
 	     <artifactId>google-api-client</artifactId>

@@ -52,7 +52,7 @@ public class MovieDao {
 	} 
 	
 	public int mergeIntoMovieList(List<MovieResult> mList) {
-		return session.update("movieMapper.mergeIntoMovieList",mList);
+		return session.insert("movieMapper.mergeIntoMovieList",mList);
 	}
 	
 	

@@ -31,7 +31,7 @@ import com.together.moviesquare.movie.vo.MovieResult;
 import lombok.extern.java.Log;
 
 @Log
-public class TestMulit {
+public class TestMulit3backup {
 	private static final int NUM_THREADS = 6;
 	private static final String API_URL = "https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp";
 	private static final String API_KEY = "SP37J119Y3PU5269K86I";
@@ -220,7 +220,7 @@ public class TestMulit {
 
 	}
 
-	private static class ApiCallable implements Callable<MovieResult> {
+	private static class ApiCallable implements Callable<String> {
 		private final String apiUrl;
 
 		public ApiCallable(String apiUrl) {
@@ -228,7 +228,7 @@ public class TestMulit {
 		}
 
 		@Override
-		public MovieResult call() throws Exception {
+		public String call() throws Exception {
 			// API 호출 코드 작성
 			URI uri = new URI(apiUrl);
 			URL url = uri.toURL();
@@ -243,27 +243,9 @@ public class TestMulit {
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
+
 			in.close();
 
-			try {
-				JsonReader reader = new JsonReader(new StringReader(response.toString()));
-				reader.setLenient(true);
-				JsonObject result = (JsonObject) JsonParser.parseReader(reader);
-				JsonElement count = result.getAsJsonArray("Data").get(0).getAsJsonObject().get("Count");
-				JsonArray result2 = result.getAsJsonArray("Data").get(0).getAsJsonObject()
-						.getAsJsonArray("Result");
-				for (int j = 0; j < count.getAsInt(); j++) {
-					JsonObject re = (JsonObject) result2.get(j);
-					MovieResult movieResult = gson.fromJson(re, MovieResult.class);
-					mList.add(movieResult);
-					listmList.add(mList);
-
-				}
-			} catch (NullPointerException e) {
-				System.out.println(future.get());
-				System.out.println("비어있네 삭제된듯?");
-
-			}
 			// API 호출 결과 반환
 			return response.toString();
 		}

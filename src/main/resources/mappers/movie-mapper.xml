@@ -3,35 +3,36 @@
 "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movieMapper">
-<resultMap type="Movie" id="resultList">
-	<result property="id" column="id"/>
-	<result property="movieid" column="movieid"/>
-	<result property="posters" column="posters"/>
-	<result property="title" column="title"/>
-	<result property="actors" column="actors"/>
-	<result property="director" column="director"/>
-	<result property="staffs" column="staffs"/>
-	<result property="company" column="company"/>
-	<result property="distributor" column="distributor"/>
-	<result property="genre" column="genre"/>
-	<result property="type" column="type"/>
-	<result property="runtime" column="runtime"/>
-	<result property="rating" column="rating"/>
-	<result property="nation" column="nation"/>
-	<result property="reprlsdate" column="reprlsdate"/>
-	<result property="keywords" column="keywords"/>
-	<result property="cost" column="cost"/>
-	<result property="audiacc" column="audiacc"/>
-	<result property="salesacc" column="salesacc"/>
-</resultMap>
+	<resultMap type="Movie" id="resultList">
+		<result property="id" column="id" />
+		<result property="movieid" column="movieid" />
+		<result property="posters" column="posters" />
+		<result property="title" column="title" />
+		<result property="actors" column="actors" />
+		<result property="director" column="director" />
+		<result property="staffs" column="staffs" />
+		<result property="company" column="company" />
+		<result property="distributor" column="distributor" />
+		<result property="genre" column="genre" />
+		<result property="type" column="type" />
+		<result property="runtime" column="runtime" />
+		<result property="rating" column="rating" />
+		<result property="nation" column="nation" />
+		<result property="reprlsdate" column="reprlsdate" />
+		<result property="keywords" column="keywords" />
+		<result property="cost" column="cost" />
+		<result property="audiacc" column="audiacc" />
+		<result property="salesacc" column="salesacc" />
+	</resultMap>
 
 
-<!-- 영화 전체 수 조회 -->
-<select id="selectListCount" resultType="_int">
-	select count(*) from movie
-</select>
-<!-- 영화 제작비 입력 페이징 처리 -->
-<select id="selectList" parameterType="Paging" resultMap="resultList">
+	<!-- 영화 전체 수 조회 -->
+	<select id="selectListCount" resultType="_int">
+		select count(*) from movie
+	</select>
+	<!-- 영화 제작비 입력 페이징 처리 -->
+	<select id="selectList" parameterType="Paging"
+		resultMap="resultList">
 	<![CDATA[
 		SELECT ID, MOVIEID, POSTERS, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, COST, AUDIACC, SALESACC
 			FROM (
@@ -45,14 +46,16 @@
 			WHERE rnum >= #{startRow} and rnum <= #{endRow}
 			ORDER BY id DESC
 	]]>
-</select>
+	</select>
 
-<!-- 영화 제목 검색 -->
-<select id="selectSearchListCount" parameterType="string" resultType="_int">
-	select count(*) from movie where title like '%' || #{ keyword } || '%'
-</select>
-	
-<select id="selectSearchList" parameterType="SearchPaging" resultMap="resultList">
+	<!-- 영화 제목 검색 -->
+	<select id="selectSearchListCount" parameterType="string"
+		resultType="_int">
+		select count(*) from movie where title like '%' || #{ keyword } || '%'
+	</select>
+
+	<select id="selectSearchList" parameterType="SearchPaging"
+		resultMap="resultList">
 <![CDATA[
 	SELECT ID, MOVIEID, POSTERS, TITLE, ACTORS, DIRECTOR, STAFFS, COMPANY, DISTRIBUTOR, GENRE, TYPE, RUNTIME, RATING, NATION, REPRLSDATE, KEYWORDS, COST, AUDIACC, SALESACC
 			FROM (
@@ -67,58 +70,154 @@
 			WHERE rnum >= #{startRow} and rnum <= #{endRow}
 			ORDER BY id DESC
 ]]>
-</select>
+	</select>
 
 
 
 
-<!-- 영화정보 merge 스케쥴러 -->
-<update id="mergeIntoMovieList" parameterType="java.util.List">
-merge into movie R1
-using (
-	<foreach collection="list" item="item" open="" close="" index="index" separator="UNION">
-		SELECT
-					#{item.DOCID} as movieid,
-					#{item.posters} as posters,
-					#{item.title} as title,
-					#{item.actors.actorsNm} as actors,
-					#{item.directorsNm} as director,
-					#{item.staffsNm} as staffs,
-					#{item.company} as company,
-					#{item.distributor} as distributor,
-					#{item.genre} as genre,
-					#{item.type} as type,
-					#{item.runtime} as runtime,
-					#{item.rating} as rating,
-					#{item.nation} as nation,
-					#{item.repRlsDate} as reprlsdate,
-					#{item.keywords} as keywords
-		FROM DUAL
-	</foreach>
-) T1
-ON (R1.movieid = T1.movieid)
-when matched then
-update
-		set
-			R1.posters = T1.posters,
-			R1.title = T1.title,
-			R1.actors = T1.actors,
-			R1.director =T1.director,
-			R1.staffs = T1.staffs,
-			R1.company = T1.company,
-			R1.distributor = T1.distributor,
-			R1.genre = T1.genre,
-			R1.type = T1.type,
-			R1.runtime = T1.runtime,
-			R1.rating = T1.rating,
-			R1.nation = T1.nation,
-			R1.reprlsdate = T1.reprlsdate,
-			R1.keywords = T1.keywords
-when not matched then
-insert (movieid, posters, title, actors, director, staffs, company,  distributor, genre, type, runtime, rating, nation, reprlsdate, keywords)
-values(T1.movieid, T1.posters, T1.title, T1.actors, T1.director, T1.staffs, T1.company, T1.distributor, T1.genre, T1.type, T1.runtime, T1.rating, T1.nation, T1.reprlsdate, T1.keywords )
-</update>
+	<!-- 영화정보 merge 스케쥴러 -->
+	<insert id="mergeIntoMovieList" parameterType="java.util.List">
+		MERGE INTO MOVIE R1
+		USING (
+		<foreach collection="list" item="item" open="" close=""
+			index="index" separator="UNION">
+				SELECT
+				#{item.DOCID} as movieid,
+				#{item.posters} as posters,
+				#{item.title} as title,
+				#{item.actorsNm} as actors,
+				#{item.directorsNm} as director,
+				#{item.staffsNm} as staffs,
+				#{item.company} as company,
+				#{item.distributor} as distributor,
+				#{item.genre} as genre,
+				#{item.type} as type,
+				#{item.runtime} as runtime,
+				#{item.rating} as rating,
+				#{item.nation} as nation,
+				#{item.repRlsDate} as reprlsdate,
+				#{item.keywords} as keywords
+				FROM DUAL
+		</foreach>
+		) T1
+			ON (R1.movieid = T1.movieid)
+			WHEN MATCHED THEN
+			UPDATE
+		<set>
+		R1.posters = T1.posters,
+		R1.title = T1.title,
+		R1.actors = T1.actors,
+		R1.director =T1.director,
+		R1.staffs = T1.staffs,
+		R1.company = T1.company,
+		R1.distributor = T1.distributor,
+		R1.genre = T1.genre,
+		R1.type = T1.type,
+		R1.runtime = T1.runtime,
+		R1.rating = T1.rating,
+		R1.nation = T1.nation,
+		R1.reprlsdate = T1.reprlsdate,
+		R1.keywords = T1.keywords
+		</set>
+		WHEN NOT MATCHED THEN
+		INSERT <trim prefix="(" suffix=")" suffixOverrides="," > 
+		movieid,
+		posters,
+		title,
+		actors, 
+		director, 
+		staffs, 
+		company, 
+		distributor, 
+		genre, 
+		type, 
+		runtime,
+		rating, 
+		nation, 
+		reprlsdate, 
+		keywords
+		</trim>
+		<trim  prefix="values (" suffix=")" suffixOverrides=",">
+		T1.movieid, 
+		T1.posters, 
+		T1.title, 
+		T1.actors, 
+		T1.director, 
+		T1.staffs, 
+		T1.company,
+		T1.distributor, 
+		T1.genre, 
+		T1.type, 
+		T1.runtime, 
+		T1.rating, 
+		T1.nation,
+		T1.reprlsdate, 
+		T1.keywords
+		</trim>
+	</insert>
 
+<!-- <update id="mergeIntoMovieList" parameterType="java.util.List">
+BEGIN
+<foreach collection="list" item="item" separator=";">
+MERGE INTO MOVIE R1
+		USING DUAL
+			ON (R1.movieid = #{item.DOCID})
+			WHEN MATCHED THEN
+			UPDATE
+		<set>
+		R1.posters = #{item.posters},
+		R1.title = #{item.title},
+		R1.actors = #{item.actorsNm},
+		R1.director =#{item.directorsNm},
+		R1.staffs = #{item.staffsNm},
+		R1.company = #{item.company},
+		R1.distributor = #{item.distributor},
+		R1.genre = #{item.genre},
+		R1.type = #{item.type},
+		R1.runtime = #{item.runtime},
+		R1.rating = #{item.rating},
+		R1.nation = #{item.nation},
+		R1.reprlsdate = #{item.repRlsDate},
+		R1.keywords = #{item.keywords}
+		</set>
+		WHEN NOT MATCHED THEN
+		INSERT <trim prefix="(" suffix=")" suffixOverrides="," > 
+		movieid,
+		posters,
+		title,
+		actors, 
+		director, 
+		staffs, 
+		company, 
+		distributor, 
+		genre, 
+		type, 
+		runtime,
+		rating, 
+		nation, 
+		reprlsdate, 
+		keywords
+		</trim>
+		<trim  prefix="VALUES (" suffix=")" suffixOverrides=",">
+		#{item.DOCID},
+		#{item.posters},
+		#{item.title},
+		#{item.actorsNm},
+		#{item.directorsNm},
+		#{item.staffsNm},
+		#{item.company},
+		#{item.distributor},
+		#{item.genre},
+		#{item.type},
+		#{item.runtime},
+		#{item.rating},
+		#{item.nation},
+		#{item.repRlsDate},
+		#{item.keywords}
+		</trim>
+</foreach>
+;END;
+</update> -->
 
 </mapper>
 

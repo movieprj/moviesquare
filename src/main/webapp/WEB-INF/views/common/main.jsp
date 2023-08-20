@@ -37,7 +37,7 @@
       <!-- end loader -->
       <!-- header -->
       <header>
-         <div class="header2">
+         <div class="header">
             <div class="container-fluid">
                <div class="row d_flex">
                   <div class=" col-md-2 col-sm-3 col logo_section">

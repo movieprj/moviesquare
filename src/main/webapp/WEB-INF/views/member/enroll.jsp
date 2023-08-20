@@ -5,8 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="resources/css/enroll.css" type="text/css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="resources/css/login/enroll.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 //회원가입 유효성 검사
@@ -206,7 +208,7 @@ function validate(){
 				</div>
 			</div>
 			<div>
-				<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>
+				<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">홈으로</a>
 			</div>
 		</div>
 	</div>

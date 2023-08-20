@@ -6,8 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<link rel="stylesheet" href="resources/css/login.css" type="text/css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="resources/css/login/login.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript">
@@ -77,23 +78,53 @@
 						<input style="	font-family: 'Noto Sans KR', sans-serif;" type="submit" value="로그인">
 					</div>
 					<br>
+					
+					
 					<!--아이디 찾기-->
-					<div class="loginmenu">
-						<div class="schid">
-							<c:url var="mvfindId" value="/moveIdRecovery.do" />
-							<a href="idfind.html">
-								<p style="font-family: 'Noto Sans KR', sans-serif;">아이디 찾기</p>
-							</a>
+	                <div class="loginmenu">
+	                    <div class="schid">
+	                        <c:url var="mvfindId" value="/moveIdRecovery.do" />
+	                        <a href="idfind.html">
+	                            <p style="font-family: 'Noto Sans KR', sans-serif;">아이디찾기</p>
+	                        </a>
+	                    </div>
+	                    <span style="margin-top: 8px;">|</span>
+	                <!--비밀번호 찾기-->
+	                <div class="schpw">
+	                    <c:url var="mvfindPwd" value="/movePwdRecovery.do" />
+	                    <a href="pwfind.html">
+	                        <p style="  font-family: 'Noto Sans KR', sans-serif;">비밀번호찾기</p>
+	                    </a>
+	                </div>
+	                <!--비밀번호 찾기-->
+	                <span style="margin-top: 8px;">|</span>
+	                <div class="schpw">
+	                    <c:url var="mvfindPwd" value="/movePwdRecovery.do" />
+	                    <a href="pwfind.html">
+	                        <p style="  font-family: 'Noto Sans KR', sans-serif;">회원가입</p>
+	                    </a>
+	                </div>
+	                </div>
+					
+					
+					
+					<!-- 
+						<div class="loginmenu">
+							<div class="schid">
+								<c:url var="mvfindId" value="/moveIdRecovery.do" />
+								<a href="idfind.html">
+									<p style="font-family: 'Noto Sans KR', sans-serif;">아이디 찾기</p>
+								</a>
+							</div>
+							<span style="margin-top: 8px;">|</span>
+							<div class="schpw">
+								<c:url var="mvfindPwd" value="/movePwdRecovery.do" />
+								<a href="pwfind.html">
+									<p style="	font-family: 'Noto Sans KR', sans-serif;">비밀번호 찾기</p>
+								</a>
+							</div>
 						</div>
-						<span style="margin-top: 8px;">|</span>
-						<!--비밀번호 찾기-->
-						<div class="schpw">
-							<c:url var="mvfindPwd" value="/movePwdRecovery.do" />
-							<a href="pwfind.html">
-								<p style="	font-family: 'Noto Sans KR', sans-serif;">비밀번호 찾기</p>
-							</a>
-						</div>
-					</div>
+					 -->
 					<br>
 					<!--카카오 로그인 -->
 					<div id="kakao_id_login" class="kakao_id_login" style="text-align: center">

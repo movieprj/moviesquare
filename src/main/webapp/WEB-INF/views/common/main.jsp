@@ -19,11 +19,11 @@
         <!-- style css -->
         <link rel="stylesheet" href="resources/css/style.css">
         <!--login.css-->
-        <link rel="stylesheet" href="resources/css/login.css">
+        <link rel="stylesheet" href="resources/css/login/login.css">
         <!--snslogin.css-->
-        <link rel="stylesheet" href="resources/css/snslogin.css">
+        <link rel="stylesheet" href="resources/css/login/snslogin.css">
         <!--login.css-->
-        <link rel="stylesheet" href="resources/css/idfind.css">      
+        <link rel="stylesheet" href="resources/css/login/idfind.css">      
         <!-- responsive-->
         <link rel="stylesheet" href="resources/css/responsive.css">
         <!-- awesome fontfamily -->
@@ -337,9 +337,9 @@
       </footer>
       <!-- end footer -->
       <!-- Javascript files-->
-      <script src="resources/js/jquery.min.js"></script>
-      <script src="resources/js/bootstrap.bundle.min.js"></script>
-      <script src="resources/js/jquery-3.0.0.min.js"></script>
-      <script src="resources/js/custom.js"></script>
+      <script defer src="resources/js/jquery.min.js"></script>
+      <script defer src="resources/js/bootstrap.bundle.min.js"></script>
+      <script defer src="resources/js/jquery-3.0.0.min.js"></script>
+      <script defer src="resources/js/custom.js"></script>
    </body>
 </html>

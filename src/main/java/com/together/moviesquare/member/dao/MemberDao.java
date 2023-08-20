@@ -1,5 +1,8 @@
 package com.together.moviesquare.member.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -91,5 +94,25 @@ public class MemberDao {
 			System.out.println("소셜 아이디 정보 호출 오류 : "+e.toString());
 			return null;
 		}
+	}
+	public ArrayList<Member> selectByMail(Member mem) {
+		try {
+			List<Member> list = session.selectList("memberMapper.selectMail", mem);
+			return (ArrayList<Member>)list;
+		}catch(Exception e) {
+			System.out.println("이메일찾기 오류 : "+e.toString());
+			return null;
+		}
+	}
+	public Member findInfo(Member mem) {
+		try {
+			return session.selectOne("memberMapper.findInfo", mem);
+		}catch(Exception e) {
+			System.out.println("비밀번호찾기 정보 오류 : "+e.toString());
+			return null;
+		}
+	}
+	public int changePwd(Member mem) {
+		return session.update("memberMapper.changePwd", mem);
 	}
 }

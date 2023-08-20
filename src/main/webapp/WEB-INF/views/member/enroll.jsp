@@ -5,8 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="resources/css/enroll.css" type="text/css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="resources/css/login/enroll.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 //회원가입 유효성 검사
@@ -19,36 +21,45 @@ var email_code = "";
 //입력된 이메일 중복되지 않았는지 확인
 function emailChk() {
 	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+	
 	if(passRule.test($("#m_email").val()) === true)
 	{
-		$.ajax({
-			url : "emailcheck.do",
-			type : "post",
-			data : {
-				m_email : $("#m_email").val()
-			},
-			success : function(data) {
-				if (data == "no") {
-					$("#emailMsg").text("이미 가입된 회원의 이메일입니다.");
-					$("#emailMsg").css('color', 'red');
-					$("#m_email").select();
-				} else {
-					$("#emailMsg").text("사용 가능한 이메일입니다.");
-					$("#emailMsg").css('color', 'green');
-					email_code = data;
-					$("#ceMailcertification").attr('disabled',false);
+		//이메일 길이 제한 최소 5글자
+		if($("#m_email").val().indexOf('@') > 4){
+			$.ajax({
+				url : "emailcheck.do",
+				type : "post",
+				data : {
+					m_email : $("#m_email").val()
+				},
+				success : function(data) {
+					if (data == "no") {
+						$("#emailMsg").text("이미 가입된 회원의 이메일입니다.");
+						$("#emailMsg").css('color', 'red');
+						$("#m_email").select();
+					} else {
+						$("#emailMsg").text("사용 가능한 이메일입니다.");
+						$("#emailMsg").css('color', 'green');
+						email_code = data;
+						$("#ceMailcertification").attr('disabled',false);
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log("error : " + jqXHR + ", " + textStatus + ", "
+							+ errorThrown);
 				}
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				console.log("error : " + jqXHR + ", " + textStatus + ", "
-						+ errorThrown);
-			}
-		});
+			});
+		}else{
+			$("#emailMsg").text("이메일은 5글자 이상이어야 합니다.");
+			$("#emailMsg").css('color', 'red');
+			enrollcheck["emailVal"] = "invalidation";
+		}
 	}else{
 		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
 		$("#emailMsg").css('color', 'red');
 		enrollcheck["emailVal"] = "invalidation";
 	}
+	
 }
 function mailCertification(){
 	var input_code = $("#ceMailcertification").val();
@@ -206,7 +217,7 @@ function validate(){
 				</div>
 			</div>
 			<div>
-				<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">시작페이지</a>
+				<input class="submit2" type="submit" value="가입하기">&nbsp;<a id="mainmove" href="main.do">홈으로</a>
 			</div>
 		</div>
 	</div>

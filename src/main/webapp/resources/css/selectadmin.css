@@ -1,0 +1,157 @@
+@media (max-width: 767px){
+	#wrap #memberadmin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 150px;
+    height: 150px;
+    color: #fff;
+    background-color:#00498c;
+    cursor: pointer;
+    
+}
+
+#wrap #movieadmin{
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 150px;
+  height: 150px;
+  color: #fff;
+  background-color: #00498c;
+  cursor: pointer;
+}
+
+
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  #wrap #memberadmin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 300px;
+    height: 300px;
+    color: #fff;
+    background-color:#00498c;
+    cursor: pointer;
+    
+}
+
+#wrap #movieadmin{
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 300px;
+  height: 300px;
+  color: #fff;
+  background-color: #00498c;
+  cursor: pointer;
+}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  #wrap #memberadmin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 300px;
+    height: 300px;
+    color: #fff;
+    background-color:#00498c;
+    cursor: pointer;
+    
+}
+
+#wrap #movieadmin{
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 300px;
+  height: 300px;
+  color: #fff;
+  background-color: #00498c;
+  cursor: pointer;
+}
+}
+
+@media (min-width: 1200px) {
+  #wrap #memberadmin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size: 50px;
+    font-weight: bold;
+    width: 400px;
+    height: 400px;
+    color: #fff;
+    background-color:#00498c;
+    cursor: pointer;
+}
+#wrap #movieadmin{
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 50px;
+  font-weight: bold;
+  width: 400px;
+  height: 400px;
+  color: #fff;
+  background-color: #00498c;
+  cursor: pointer;
+}
+
+
+}
+
+
+a {
+    text-decoration: none;
+  }
+
+.body{
+  background-color: #686868; 
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+#wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#wrap .title{
+  position: absolute;
+  font-size: 50px;
+  top: 70px;
+  color: #00498c;
+  font-weight: bold;
+  
+}
+

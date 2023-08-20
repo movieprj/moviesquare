@@ -24,7 +24,7 @@ basic
 body {
      color: #666666;
      font-size: 14px;
-     font-family: 'Poppins', sans-serif;
+     font-family: 'Noto Sans', sans-serif;
      line-height: 1.80857;
      font-weight: normal;
 }
@@ -204,18 +204,14 @@ button {
      border-width: 5px;
      width: 80px;
      z-index: 999;
-     margin: 0 auto;
+     margin-left: 30px;
      left: 0;
      right: 0;
      top: 55px;
 }
 
-.titlepage h2 {
-     font-size: 45px;
-     font-weight: bold;
-     line-height: 50px;
-     color: #323232;
-}
+
+
 
 .read_more {
      display: inline-block;
@@ -298,7 +294,7 @@ header
 
 .header {
      width: 100%;
-     background: rgba(39, 43, 44, 0.87);
+     background: #00498c;
      height: 106px;
      padding: 37px 30px;
      position: absolute;
@@ -306,6 +302,15 @@ header
      box-shadow: 3px 0 13px rgba(30, 30, 30, 0.90);
 }
 
+.header2 {
+     width: 100%;
+     background: #00498c;
+     height: 106px;
+     padding: 37px 30px;
+     position: absolute;
+     z-index: 999;
+     box-shadow: 3px 0 13px rgba(30, 30, 30, 0.90);
+}
 
 /*--------------------------------------------------------------------- 
 menu section
@@ -317,7 +322,7 @@ menu section
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link {
-     padding: 0px 30px;
+     padding: 0px 20px;
      color: #fff;
      font-size: 17px;
      line-height: 20px;
@@ -343,17 +348,28 @@ menu section
 ul.email {
      padding-top: 1px;
      display: flex;
-     align-items: center;
      justify-content: flex-end;
      flex-wrap: wrap;
 }
+@media (max-width: 767px){
+     ul.email{
+     display: flex;
+     flex-direction: column;
+     text-align: left;
+    }
+    ul.email li {
+     padding: 5px 0px;
+     }
+}
+@media (max-width: 767px){
 
-ul.email li {
-     padding: 0px 35px;
+}
+@media (min-width: 1200px) {
+     ul.email li {
+          padding: 0px 20px;
+     }
 }
 
-ul.email li:nth-child(2) {
-}
 
 ul.email li a {
      font-size: 17px;
@@ -445,7 +461,7 @@ ul.email li i {
 
 .we_do {
      background: #fff;
-     padding: 90px 0 190px 0;
+     padding: 60px 0 190px 0;
 }
 
 .we_do .titlepage::before {
@@ -457,17 +473,43 @@ ul.email li i {
      padding: 0;
 }
 
+.we2_do {
+     
+     position: inherit;
+     padding-bottom: 50px;
+}
 #bo_ho:hover {
-     border: #292a2c solid 1px;
+     
      transition: ease-in all 0.5s;
 }
 
 .we_box {
-     border: #e6e7e8 solid 1px;
+     
      transition: ease-in all 0.5s;
-     padding: 40px;
+     
      height: 507px;
      margin-bottom: 26px;
+}
+
+.we_box2 {
+     width: 200px;
+     border: #e6e7e8 solid 1px;
+     transition: ease-in all 0.5s;
+     height: 300px;
+     margin-bottom: 100px;
+     margin-left: 85px;
+}
+.m-poster{
+     max-width: 100%;
+     height : 100%;
+     object-fit: cover;
+}
+.m-poster2{
+     max-width: 100%;
+     border-radius: 10px;
+     height : 100%;
+     object-fit: cover;
+     
 }
 
 .we_box h3 {
@@ -500,6 +542,21 @@ ul.email li i {
      background: #464646;
 }
 
+.we_box2 .read_more2 {
+     position: absolute;
+     text-align: center;
+     width: 50px;
+     height: 41px;
+     line-height: 41px;
+     margin: 0 auto;
+     display: block;
+     margin-right: 0;
+     color: #fff;
+     background: #6F7F9C;
+     opacity: 0.9;
+     border-radius: 10px;
+}
+
 #we1 .carousel-indicators {
      display: none;
 }
@@ -509,7 +566,7 @@ ul.email li i {
      background: #ffffff;
      width: 67px;
      height: 59px;
-     top: 109%;
+     top: 103%;
      opacity: 1;
      font-size: 33px;
      color: #000000;
@@ -528,6 +585,105 @@ ul.email li i {
 #we1 a.carousel-control-next:hover,
 #we1 a.carousel-control-prev:focus,
 #we1 a.carousel-control-prev:hover {
+     background: #464646;
+     color: #fff;
+     opacity: 1;
+}
+
+#we2 .carousel-indicators {
+     display: none;
+}
+
+#we2 a.carousel-control-next,
+#we2 a.carousel-control-prev {
+     background: #ffffff;
+     width: 67px;
+     height: 59px;
+     top: 103%;
+     opacity: 1;
+     font-size: 33px;
+     color: #000000;
+     box-shadow: 3px 0 36px rgba(30, 30, 30, 0.2);
+}
+
+#we2 a.carousel-control-prev {
+     left: 43%;
+}
+
+#we2 a.carousel-control-next {
+     right: 43%;
+}
+
+#we2 a.carousel-control-next:focus,
+#we2 a.carousel-control-next:hover,
+#we2 a.carousel-control-prev:focus,
+#we2 a.carousel-control-prev:hover {
+     background: #464646;
+     color: #fff;
+     opacity: 1;
+}
+
+#we3 .carousel-indicators {
+     display: none;
+}
+
+#we3 a.carousel-control-next,
+#we3 a.carousel-control-prev {
+     background: #ffffff;
+     width: 67px;
+     height: 59px;
+     top: 103%;
+     opacity: 1;
+     font-size: 33px;
+     color: #000000;
+     box-shadow: 3px 0 36px rgba(30, 30, 30, 0.2);
+}
+
+#we3 a.carousel-control-prev {
+     left: 43%;
+}
+
+#we3 a.carousel-control-next {
+     right: 43%;
+}
+
+#we3 a.carousel-control-next:focus,
+#we3 a.carousel-control-next:hover,
+#we3 a.carousel-control-prev:focus,
+#we3 a.carousel-control-prev:hover {
+     background: #464646;
+     color: #fff;
+     opacity: 1;
+}
+
+#we4 .carousel-indicators {
+     display: none;
+}
+
+#we4 a.carousel-control-next,
+#we4 a.carousel-control-prev {
+     background: #ffffff;
+     width: 67px;
+     height: 59px;
+     top: 103%;
+     opacity: 1;
+     font-size: 33px;
+     color: #000000;
+     box-shadow: 3px 0 36px rgba(30, 30, 30, 0.2);
+}
+
+#we4 a.carousel-control-prev {
+     left: 43%;
+}
+
+#we4 a.carousel-control-next {
+     right: 43%;
+}
+
+#we4 a.carousel-control-next:focus,
+#we4 a.carousel-control-next:hover,
+#we4 a.carousel-control-prev:focus,
+#we4 a.carousel-control-prev:hover {
      background: #464646;
      color: #fff;
      opacity: 1;
@@ -882,7 +1038,7 @@ ul.email li i {
 /** footer **/
 
 .footer {
-     background: #222222;
+     background: #00498c;
      padding-top: 90px
 }
 
@@ -987,7 +1143,7 @@ ul.social_icon li a:hover {
 }
 
 .copyright {
-     background: #151515;
+     background: #001f3b;
      margin-top: 80px;
      padding: 20px 0px;
 }

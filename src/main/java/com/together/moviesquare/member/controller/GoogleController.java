@@ -106,7 +106,7 @@ public class GoogleController {
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
                 .code(authCode)
-                .redirectUri(googleRedirectUrl)
+                //.redirectUri(googleRedirectUrl)
                 .grantType("authorization_code")
                 .build();
 
@@ -194,7 +194,15 @@ public class GoogleController {
         RestTemplate restTemplate = new RestTemplate();
 
         //3.토큰요청을 한다.
-        ResponseEntity<GoogleLoginResponse> apiResponse = restTemplate.postForEntity(googleAuthUrl + "/token", googleOAuthRequest, GoogleLoginResponse.class);
+        ResponseEntity<GoogleLoginResponse> apiResponse = null;
+        try {
+        	apiResponse = restTemplate.postForEntity(googleAuthUrl + "/token", googleOAuthRequest, GoogleLoginResponse.class);
+        } catch (Exception e) {
+			log.info("왜 에러가나는겨");
+			return "../../index";
+		}
+        
+        
         //4.받은 토큰을 토큰객체에 저장
         GoogleLoginResponse googleLoginResponse = apiResponse.getBody();
 
@@ -205,25 +213,15 @@ public class GoogleController {
 
         try {
         
-        
+        ObjectMapper mapper = new ObjectMapper();
         //5.받은 토큰을 구글에 보내 유저정보를 얻는다.
         String requestUrl = UriComponentsBuilder.fromHttpUrl(googleAuthUrl + "/tokeninfo").queryParam("id_token",googleToken).toUriString();
 
-        String requestUrl2 = UriComponentsBuilder.fromHttpUrl("https://people.googleapis.com/v1/people/me").queryParam("personFields", "birthdays,genders").queryParam("key",api).toUriString();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer "+googleLoginResponse.getAccess_token());
-        
-        
-        //6.허가된 토큰의 유저정보를 결과로 받는다.
+        /* 소셜이용 했던사람들 먼저 로그인시킴*/
         String resultJson = restTemplate.getForObject(requestUrl, String.class);
-        ResponseEntity<String> resultJson2 = restTemplate.exchange(requestUrl2, HttpMethod.GET, new HttpEntity<>(headers) , String.class);
-        
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode userInfo = mapper.readTree(resultJson2.getBody());
         JsonNode idInfo = mapper.readTree(resultJson);
         sub = idInfo.get("sub").toString().replaceAll("\"", "");
         name = idInfo.get("name").toString().replaceAll("\"", "");
-        
         //있는사람이면 넘기기
         KaKao loginMember = service.selectGoogleMember(sub);
         if (loginMember != null) {
@@ -232,6 +230,22 @@ public class GoogleController {
     		status.setComplete();
     		return "../../index";
         }
+        //먼저끝
+        
+        String requestUrl2 = UriComponentsBuilder.fromHttpUrl("https://people.googleapis.com/v1/people/me").queryParam("personFields", "birthdays,genders").queryParam("key",api).toUriString();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer "+googleLoginResponse.getAccess_token());
+        
+        
+        //6.허가된 토큰의 유저정보를 결과로 받는다.
+        
+        ResponseEntity<String> resultJson2 = restTemplate.exchange(requestUrl2, HttpMethod.GET, new HttpEntity<>(headers) , String.class);
+        
+        
+        JsonNode userInfo = mapper.readTree(resultJson2.getBody());
+        
+        
+        
         
         //
         String gender = userInfo.get("genders").get(0).get("value").toString();
@@ -267,7 +281,7 @@ public class GoogleController {
 		return "../../index";
         
         } catch (Exception e) {
-        	
+        	log.info("아무튼 에러발생 생년월일, 성별 체크안했거나 몰루?");
         	model.addAttribute("sub", sub);
         	model.addAttribute("name", name);
 			return "member/moreDetail";
@@ -292,7 +306,7 @@ public class GoogleController {
 		loginSession.setAttribute("loginMember", member);
 		status.setComplete();
 		
-		return "index";
+		return "../index";
 	}
 
     

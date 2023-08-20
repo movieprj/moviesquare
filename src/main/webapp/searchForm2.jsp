@@ -8,96 +8,33 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link type="text/css" rel="stylesheet"
-	href="//cdn.jsdelivr.net/npm/jsmind@0.6.4/style/jsmind.css" />
-<script type="text/javascript"
-	src="//cdn.jsdelivr.net/npm/jsmind@0.6.4/es6/jsmind.js"></script>
-<script type="text/javascript"
-	src="//cdn.jsdelivr.net/npm/jsmind/es6/jsmind.draggable-node.js"></script>
+     <link
+            type="text/css"
+            rel="stylesheet"
+            href="//cdn.jsdelivr.net/npm/jsmind/style/jsmind.css"
+        />
+        <style type="text/css">
+            #jsmind_container {
+                width: 800px;
+                height: 500px;
+                border: solid 1px #ccc;
+                /*background:#f4f4f4;*/
+                background: #f4f4f4;
+            }
+        </style>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/jsmind/es6/jsmind.js"></script>
+        <script
+            type="text/javascript"
+            src="//cdn.jsdelivr.net/npm/jsmind/es6/jsmind.draggable-node.js"
+        ></script>
 <title>Document</title>
 <!-- <link rel="stylesheet" href="../css/day11.css"> -->
-<style type="text/css">
-* {
-	margin: 0;
-	padding: 0;
-}
-
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-}
-
-.search {
-	width: 300px;
-	height: 100px;
-}
-
-.search input {
-	width: 80%;
-	height: 30px;
-	font-size: 18px;
-	border: none;
-	border-bottom: 1px black solid;
-}
-
-.search button {
-	font-size: 18px;
-	border: none;
-	background-color: green;
-	width: 50px;
-	height: 30px;
-	border-radius: 15px;
-	color: #fff;
-	cursor: pointer;
-}
-</style>
-<script type="text/javascript">
-function insertKewordAndViews() {
-	const keyword = $("input[name='keyword']").val();
-	if(keyword == "" || keyword == null) {
-		alert("검색어를 입력해주세요.");
-		return;
-	}
-
-	$.ajax({
-		url: "${pageContext.request.contextPath}/insertViews.do",
-		type: "post",
-		data: {
-			keyword: keyword
-		},
-		success: function(data) {
-			alert("검색어와 조회수가 저장되었습니다.");
-			console.log(data);
-		},
-		error: function() {
-			console.log("error");
-		}
-	});
-}
-$(document).ready(function() {
-    $('#search-btn').click(function() {
-      // 검색 버튼이 클릭되었을 때 실행할 코드
-
-	  // 조회수와 키워드 입력
-	  insertKewordAndViews();
-
-	  // 실제로 검색할 코드 입력.
-    });
-  });
-
-</script>
 
 </head>
 <body>
-	<section>
-		<form>
-			<div class="search">
-				<input type="text" name="keyword" value="">
-				<button type="button" id="search-btn">검색</button>
-			</div>
+
 			<div id="jsmind_container"></div>
+			
 			<script type="text/javascript">
             function load_jsmind() {
         var data = {
@@ -121,19 +58,19 @@ $(document).ready(function() {
                 },
                         {
                             "id": "title",
-                            "topic": "영화 제목: 벙어리 삼룡", parentid:'sub1'
+                            "topic": "영화 제목: 벙어리 삼룡", parentid:'root'
                         },
                         {
                             "id": "director",
-                            "topic": "감독: 나운규", parentid:'sub1'
+                            "topic": "감독: 나운규", parentid:'root'
                         },
                         {
                             "id": "actors",
-                            "topic": "배우: 나운규, 유신방, 주삼손, 윤봉춘", parentid:'sub1'
+                            "topic": "배우: 나운규, 유신방, 주삼손, 윤봉춘", parentid:'root'
                         },
                         {
                             "id": "production",
-                            "topic": "제작사: 나운규프로덕션", parentid:'sub1'
+                            "topic": "제작사: 나운규프로덕션", parentid:'root'
                         },
                         {
                             "id": "genre",
@@ -165,7 +102,6 @@ $(document).ready(function() {
             }
             load_jsmind();
     </script>
-		</form>
-	</section>
+
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.together.moviesquare.member.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member selectMember(String m_id) {
 		return dao.selectMember(m_id);
+	}
+
+	@Override
+	public ArrayList<Member> selectByMail(Member mem) {
+		return dao.selectByMail(mem);
+	}
+
+	@Override
+	public Member findInfo(Member mem) {
+		return dao.findInfo(mem);
+	}
+
+	@Override
+	public int changPwd(Member mem) {
+		return dao.changePwd(mem);
 	}
 
 }

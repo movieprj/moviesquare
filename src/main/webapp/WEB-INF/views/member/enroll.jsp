@@ -21,36 +21,45 @@ var email_code = "";
 //입력된 이메일 중복되지 않았는지 확인
 function emailChk() {
 	var passRule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+	
 	if(passRule.test($("#m_email").val()) === true)
 	{
-		$.ajax({
-			url : "emailcheck.do",
-			type : "post",
-			data : {
-				m_email : $("#m_email").val()
-			},
-			success : function(data) {
-				if (data == "no") {
-					$("#emailMsg").text("이미 가입된 회원의 이메일입니다.");
-					$("#emailMsg").css('color', 'red');
-					$("#m_email").select();
-				} else {
-					$("#emailMsg").text("사용 가능한 이메일입니다.");
-					$("#emailMsg").css('color', 'green');
-					email_code = data;
-					$("#ceMailcertification").attr('disabled',false);
+		//이메일 길이 제한 최소 5글자
+		if($("#m_email").val().indexOf('@') > 4){
+			$.ajax({
+				url : "emailcheck.do",
+				type : "post",
+				data : {
+					m_email : $("#m_email").val()
+				},
+				success : function(data) {
+					if (data == "no") {
+						$("#emailMsg").text("이미 가입된 회원의 이메일입니다.");
+						$("#emailMsg").css('color', 'red');
+						$("#m_email").select();
+					} else {
+						$("#emailMsg").text("사용 가능한 이메일입니다.");
+						$("#emailMsg").css('color', 'green');
+						email_code = data;
+						$("#ceMailcertification").attr('disabled',false);
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log("error : " + jqXHR + ", " + textStatus + ", "
+							+ errorThrown);
 				}
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				console.log("error : " + jqXHR + ", " + textStatus + ", "
-						+ errorThrown);
-			}
-		});
+			});
+		}else{
+			$("#emailMsg").text("이메일은 5글자 이상이어야 합니다.");
+			$("#emailMsg").css('color', 'red');
+			enrollcheck["emailVal"] = "invalidation";
+		}
 	}else{
 		$("#emailMsg").text("이메일 형식을 맞춰 작성해 주세요");
 		$("#emailMsg").css('color', 'red');
 		enrollcheck["emailVal"] = "invalidation";
 	}
+	
 }
 function mailCertification(){
 	var input_code = $("#ceMailcertification").val();

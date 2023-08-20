@@ -49,6 +49,34 @@ select * from member where SOCAL_ID=#{SOCAL_ID} and LOGIN_OK = 'Y'
 insert into member (m_nickname,m_gender,admin,login_ok,SOCAL_ID,agecode)
 values(#{m_nickname},#{m_gender},default,default,#{kakaoid},#{agecode})
 </insert>
+
+<!-- 이메일 찾기 -->
+<select id="selectMail" parameterType="Member" resultType="Member">
+SELECT substr(M_EMAIL, 0, length(substr(M_EMAIL,0,instr(M_EMAIL,'@')-1))-3) || '***' || substr(M_EMAIL,instr(M_EMAIL,'@')) as m_email
+  FROM MEMBER
+ WHERE 1=1
+   AND M_NAME     = #{m_name}
+   AND M_BIRTHDAY = #{m_birthday}
+</select>
+
+<!-- 비밀번호 찾기 정보 확인 -->
+<select id ="findInfo" parameterType="Member" resultType="Member">
+SELECT *
+  FROM MEMBER
+ WHERE 1=1
+   AND M_EMAIL    = #{m_email}
+   AND M_NAME     = #{m_name}
+   AND M_BIRTHDAY = #{m_birthday}
+</select>
+
+<!-- 비밀번호 변경 -->
+<update id="changePwd" parameterType="Member">
+UPDATE MEMBER SET M_PW = #{m_pw} 
+ WHERE M_EMAIL = #{m_email} 
+   AND M_NAME = #{m_name}
+   AND M_BIRTHDAY = #{m_birthday}
+</update>
+
 </mapper>
 
 

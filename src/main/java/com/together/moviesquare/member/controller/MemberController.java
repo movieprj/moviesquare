@@ -1,6 +1,7 @@
 package com.together.moviesquare.member.controller;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.together.moviesquare.member.service.MemberService;
 import com.together.moviesquare.member.vo.Member;
@@ -109,9 +111,71 @@ public class MemberController {
 		}
 		return "../../index";
 	}
+	//아이디찾기 페이지 이동
+	@RequestMapping("idfindPage.do")
+	public String idFindPageMove() {
+		return "member/idfind";
+	}
+	//비밀번호찾기 페이지 이동
+	@RequestMapping("pwfindPage.do")
+	public String pwFindPageMove() {
+		return "member/pwfind";
+	}
+	
+	//아이디 찾기
+	@RequestMapping("findId.do")
+	public ModelAndView FindID(Member mem, ModelAndView mv) {
+		logger.info("mem 내용 : " + mem.getM_name() + ", " + mem.getM_birthday());
+		ArrayList<Member> loginMember = service.selectByMail(mem);
+		
+		if(loginMember != null && loginMember.size() != 0) {
+			mv.addObject("FindResult", "1");
+			mv.addObject("find_mail", loginMember);
+		}else {
+			mv.addObject("FindResult", "0");
+			mv.addObject("msg","가입되지 않은 회원입니다.");
+		}
+		mv.setViewName("member/idResultView");
+		return mv;
+	}
 	
 	
+	//비밀번호 찾기
+	@RequestMapping("findPwd.do")
+	public ModelAndView FindPw(Member mem, ModelAndView mv) {
+		Member loginMember = service.findInfo(mem);
+		
+		if(loginMember != null) {
+			mv.addObject("FindResult", "1");
+			mv.addObject("find_info", loginMember);
+		}else {
+			mv.addObject("FindResult", "0");
+			mv.addObject("msg","가입되지 않은 회원입니다.");
+		}
+		mv.setViewName("member/pwdResultView");
+		return mv;
+		
+	}
 	
+	//비밀번호 변경 ajax
+	@RequestMapping(value = "changePwd.do", method=RequestMethod.POST)
+	public void idcheckFunc(Member mem, HttpServletResponse response) throws Exception {
+		
+		String returnValue = "";
+		mem.setM_pw(this.bcryptPasswordEncoder.encode(mem.getM_pw()));
+		
+		logger.info("mem 내용 : " + mem.toString());
+		if(service.changPwd(mem)>0) {
+			returnValue = "0";
+		}else {
+			returnValue = "1";
+		}
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.append(returnValue);
+		out.flush();
+		out.close();
+	}
 	
 	//연령대
 	private Member setAgecode(Member member) {

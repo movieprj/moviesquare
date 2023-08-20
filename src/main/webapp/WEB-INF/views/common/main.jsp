@@ -19,11 +19,11 @@
         <!-- style css -->
         <link rel="stylesheet" href="resources/css/style.css">
         <!--login.css-->
-        <link rel="stylesheet" href="resources/css/login.css">
+        <link rel="stylesheet" href="resources/css/login/login.css">
         <!--snslogin.css-->
-        <link rel="stylesheet" href="resources/css/snslogin.css">
+        <link rel="stylesheet" href="resources/css/login/snslogin.css">
         <!--login.css-->
-        <link rel="stylesheet" href="resources/css/idfind.css">      
+        <link rel="stylesheet" href="resources/css/login/idfind.css">      
         <!-- responsive-->
         <link rel="stylesheet" href="resources/css/responsive.css">
         <!-- awesome fontfamily -->
@@ -37,7 +37,7 @@
       <!-- end loader -->
       <!-- header -->
       <header>
-         <div class="header">
+         <div class="header2">
             <div class="container-fluid">
                <div class="row d_flex">
                   <div class=" col-md-2 col-sm-3 col logo_section">

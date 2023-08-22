@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ottMapper">
+	<resultMap type="Ott" id="resultOtt">
+		<id column="ott_number" property="ott_number" />
+		<result column="ott_name" property="ott_name" />
+		<result column="ott_movierank" property="ott_movierank" />
+		<result column="ott_moviename" property="ott_moviename" />
+		<result column="ott_date" property="ott_date" />
+	</resultMap>
+
+	<!-- ott 전체 개수 -->
+	<select id="getListCount" resultType="_int">
+		select count(*) from
+		ott_crawling
+	</select>
+
+	<!-- ott 전체 조회용 -->
+	<select id="selectAll" resultMap="resultOtt">
+		select * from ott_crawling
+	</select>
+</mapper>
+
+
+
+
+
+
+

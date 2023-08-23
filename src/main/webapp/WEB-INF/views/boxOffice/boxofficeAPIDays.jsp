@@ -88,10 +88,12 @@ th, td {
 }
 
 .centered-form .form-group {
-	margin-bottom: 0; /* Remove default bottom margin for form-group */
+	margin-bottom: 0; /* form-group의 하단 마진을 제거 */
 }
 </style>
 </head>
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="resources/js/KobisOpenAPIRestService.js"></script>
 <!-- body -->
 <body class="main-layout inner_page">
 	<!-- loader  -->
@@ -130,7 +132,7 @@ th, td {
 								href="trendany.html">트렌드분석</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="movierankDays.do">일별영화관순위</a> <a class="nav-link"
-								href="movierankMonth.do">월별영화관순위</a></li>
+								href="movierankWeeks.do">주간별영화관순위</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="ottBoardList.do">OTT순위 </a></li>
 							</a>
@@ -232,7 +234,7 @@ th, td {
 							<form action="" class="centered-form text-center"
 								onsubmit="return fetchData();">
 								<div class="form-group">
-									<label for="targetDt">일자:</label> <input type="text"
+									<label for="targetDt">일자 :</label> <input type="text"
 										name="targetDt" id="targetDt" value="<%=targetDt%>"
 										class="form-control">
 								</div>
@@ -259,11 +261,11 @@ th, td {
 					<div class="Informa helpful">
 						<h3>Useful Link</h3>
 						<ul>
-							<li><a href="index.html">Home</a></li>
+							<li><a href="main.do">Home</a></li>
 							<li><a href="workdb.html">작품DB</a></li>
 							<li><a href="trendany.html">트렌드분석</a></li>
 							<li><a href="movierankDays.do">일별영화관순위</a></li>
-							<li><a href="movierankMonth.do"">월별영화관순위</a></li>
+							<li><a href="movierankWeeks.do"">주간별영화관순위</a></li>
 							<li><a href="ottBoardList.do">OTT순위</a></li>
 							<li><a href="contact.html">Contact us</a></li>
 						</ul>

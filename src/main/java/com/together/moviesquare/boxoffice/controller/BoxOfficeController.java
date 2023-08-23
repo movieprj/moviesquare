@@ -57,7 +57,7 @@ public class BoxOfficeController {
 		return "boxOffice/boxofficeAPIDays";
     }
     
-    @RequestMapping("movierankMonth.do")
+    @RequestMapping("movierankWeeks.do")
     public String movierankView() {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -92,6 +92,6 @@ public class BoxOfficeController {
             log.info("오류 : " + e.toString());
         }
 
-        return "boxOffice/boxofficeAPIMonth";
+        return "boxOffice/boxofficeAPIWeeks";
     }
 }

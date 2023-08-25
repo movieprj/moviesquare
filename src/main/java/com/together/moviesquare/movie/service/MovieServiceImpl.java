@@ -10,6 +10,7 @@ import com.together.moviesquare.common.Paging;
 import com.together.moviesquare.common.SearchPaging;
 import com.together.moviesquare.movie.dao.MovieDao;
 import com.together.moviesquare.movie.vo.Movie;
+import com.together.moviesquare.movie.vo.MovieOld;
 import com.together.moviesquare.movie.vo.MovieResult;
 
 @Service("movieService")
@@ -23,7 +24,7 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
-	public ArrayList<Movie> selectList(Paging paging) {
+	public ArrayList<MovieOld> selectList(Paging paging) {
 		return dao.selectList(paging);
 	}
 
@@ -33,13 +34,18 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
-	public ArrayList<Movie> selectSearchList(SearchPaging searchpaging) {
+	public ArrayList<MovieOld> selectSearchList(SearchPaging searchpaging) {
 		return dao.selectSearchList(searchpaging);
 	}
 
 	@Override
 	public int mergeIntoMovieList(List<MovieResult> mList) {
 		return dao.mergeIntoMovieList(mList);
+	}
+
+	@Override
+	public Movie selectMovieById(String movieId) {
+		return dao.selectMovieById(movieId);
 	}
 
 	

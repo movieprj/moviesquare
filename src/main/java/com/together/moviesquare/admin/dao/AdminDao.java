@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.together.moviesquare.common.Paging;
 import com.together.moviesquare.common.SearchPaging;
 import com.together.moviesquare.member.vo.Member;
-import com.together.moviesquare.movie.vo.Movie;
+import com.together.moviesquare.movie.vo.MovieOld;
 
 import lombok.extern.java.Log;
 
@@ -31,7 +31,7 @@ public class AdminDao {
 		}
 	}
 
-	public int updateCost(Movie movie) {
+	public int updateCost(MovieOld movie) {
 		int result = 0;
 		try {
 			result = session.update("adminMapper.updateCost", movie);

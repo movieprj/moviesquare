@@ -6,7 +6,7 @@ import java.util.List;
 import com.together.moviesquare.common.Paging;
 import com.together.moviesquare.common.SearchPaging;
 import com.together.moviesquare.member.vo.Member;
-import com.together.moviesquare.movie.vo.Movie;
+import com.together.moviesquare.movie.vo.MovieOld;
 
 public interface AdminService {
 	
@@ -14,7 +14,7 @@ public interface AdminService {
 	public int updateLoginok(Member member);
 	
 	// 제작비 수정(update)
-	public int updateCost(Movie movie);
+	public int updateCost(MovieOld movie);
 	
 	//기본 회원관리 페이징 처리용 count
 	public int selectListCount();

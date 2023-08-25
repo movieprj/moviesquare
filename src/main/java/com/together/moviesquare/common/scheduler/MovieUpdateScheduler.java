@@ -127,6 +127,7 @@ public class MovieUpdateScheduler {
 	
 	//시간 설정필요 되긴하는데 좀느림
 	//@Scheduled(cron = "0 */2 * * * ?")
+	@Scheduled(cron = "0 */10 * * * *") // 10분
 	public void movieInfoUpdate44() throws InterruptedException, ExecutionException {
 		log.info("업데이트 시작!");
 

@@ -219,6 +219,11 @@ MERGE INTO MOVIE R1
 ;END;
 </update> -->
 
+<select id="selectMovieById" parameterType="string" resultType="Movie">
+SELECT * 
+FROM MOVIE
+WHERE ID = #{id}
+</select>
 </mapper>
 
 

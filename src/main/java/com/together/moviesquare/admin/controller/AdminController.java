@@ -27,7 +27,7 @@ import com.together.moviesquare.common.SearchPaging;
 import com.together.moviesquare.member.service.MemberService;
 import com.together.moviesquare.member.vo.Member;
 import com.together.moviesquare.movie.service.MovieService;
-import com.together.moviesquare.movie.vo.Movie;
+import com.together.moviesquare.movie.vo.MovieOld;
 
 import lombok.extern.java.Log;
 
@@ -181,7 +181,7 @@ public class AdminController {
 		int endRow = startRow + limit - 1;
 		Paging paging = new Paging(startRow, endRow);
 		//페이징 계산 처리 끝 ---------------------------------------
-		ArrayList<Movie> list = movieservice.selectList(paging);
+		ArrayList<MovieOld> list = movieservice.selectList(paging);
 		if(list != null && list.size() > 0) {
 			mv.addObject("list", list);
 			mv.addObject("listCount", listCount);
@@ -221,7 +221,7 @@ public class AdminController {
 		//페이징 계산 처리 끝 ---------------------------------------
 		SearchPaging searchpaging = new SearchPaging(keyword, startRow, endRow);
 		
-		ArrayList<Movie> list = movieservice.selectSearchList(searchpaging);
+		ArrayList<MovieOld> list = movieservice.selectSearchList(searchpaging);
 		
 		if(list != null && list.size() > 0) {
 			mv.addObject("list", list);
@@ -248,7 +248,7 @@ public class AdminController {
 			JSONParser jparser = new JSONParser();
 			JSONObject cost = (JSONObject)jparser.parse(param);
 			
-			Movie movie = new Movie();
+			MovieOld movie = new MovieOld();
 			Number id = (Number) cost.get("id");
 			int intValue = id.intValue();
 			movie.setId(intValue);

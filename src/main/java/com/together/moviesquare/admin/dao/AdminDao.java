@@ -24,7 +24,9 @@ public class AdminDao {
 		int result = 0;
 		try {
 			result = session.update("adminMapper.updateLoginOK", member);
+			log.info("왜 그래 : " + result);
 		}catch(Exception e) {
+			log.info("error : " + e.toString());
 			return -1;
 		}finally {
 			return result;
@@ -70,5 +72,6 @@ public class AdminDao {
 			return null;
 		}
 		return (ArrayList<Member>)list;
-	} 
+	}
+
 }

@@ -2,20 +2,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title></title>
+	<meta charset="UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin선택</title>
+    <link rel="stylesheet" href="resources/css/selectadmin.css">
+    <link rel="stylesheet" href="resources/css/reset.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400&family=Roboto:wght@100&display=swap" rel="stylesheet">
+
 </head>
 <body>
-	<h1>무비 어드민 페이지</h1>
-	<br><br><br><br><br>
-	
-	
-	<div>
-		<h2><a href ="mlist.do">1. 회원 관리</a></h2>
-		<br>
-		<h2><a href ="movieCost.do">2. 제작비 추가</a></h2>
-		<br>
-		<h2><a href = "adminlogout.do">로그아웃</a></h2>
-	</div>
+	<div id="wrap">
+        <h1 class="title">어드민선택</h1>
+        <a href="mlist.do"><div id="memberadmin">회원어드민</div></a>
+        <a href="movieCost.do"><div id="movieadmin">영화어드민</div></a>
+        <a href="adminlogout.do"><div id ="logoutadmin">로그아웃</div></a>
+    </div>
 </body>
 </html>

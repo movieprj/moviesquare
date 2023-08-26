@@ -22,6 +22,18 @@
 	update member
 	set login_ok = #{ login_ok }
 	where m_nickname = #{ m_nickname }
+	  <if test="m_email == ''">
+        AND m_email IS NULL
+      </if>
+      <if test="m_email != ''">
+        AND m_email = #{m_email}
+      </if>
+      <if test="socal_id == ''">
+        AND socal_id IS NULL
+      </if>
+      <if test="socal_id != ''">
+        AND socal_id = #{socal_id}
+      </if>
 </update>
 <!-- 영화 제작비 입력 -->
 <update id="updateCost" parameterType="Movie">
@@ -32,7 +44,7 @@
 
 <!-- 멤버 전체 회원수 조회 -->
 <select id="getListCount" resultType="_int">
-	select count(*) from member where m_nickname != '관리자'
+	SELECT COUNT(*) FROM MEMBER WHERE ADMIN != 'Y'
 </select>
 
 <select id="selectList" parameterType="Paging" resultMap="resultList">

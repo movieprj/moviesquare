@@ -31,6 +31,24 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+	
+	
+	<!-- log4jdbc-remix 로그 출력 appender -->
+	<!-- 실행되는 query 문과 resultSet 결과 출력하는 appender -->
+	<appender name="sqlLogger" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" 
+			value="%-5p - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- query logger -->
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="info" />
+		<appender-ref ref="sqlLogger" />	
+	</logger>
+	
+
 
 	<!-- Root Logger -->
 	<root>

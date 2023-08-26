@@ -1,0 +1,47 @@
+.search-select {
+    position: relative;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 20px;
+}
+
+.selectbox {
+    border: 1px solid #3b4050;
+    width: 5rem;
+    height: 3rem;
+    text-align: center;
+    color: #fff;
+    background-color: #1a1c23;
+}
+
+.search {
+    width: 15rem;
+    height: 3rem;
+    border: 1px solid #3b4050;
+    background-color: #1a1c23;
+    color: #fff;
+}
+
+.submit {
+    position: absolute;
+    width: 5.5rem;
+    height: 47.99px;
+    border: none;
+    background-color: #1a1c23;
+    color: #fff;
+    cursor: pointer;   
+}
+.submit input{
+    
+}
+.btn-wrap{
+    text-align: right;
+    margin-top: 15px;
+}
+.list{
+    width: 100px;
+    height: 50px;
+    background: #7e3af2;
+    color: #fff;
+    border-radius: 10px;
+}

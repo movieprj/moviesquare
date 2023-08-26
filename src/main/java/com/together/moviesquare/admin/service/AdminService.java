@@ -24,5 +24,6 @@ public interface AdminService {
 	public int userIDSearchCount(String keyword);
 	//닉네임 검색 회원관리 페이징 처리
 	public ArrayList<Member> userIDSearch(SearchPaging searchpaging);
+	
 
 }

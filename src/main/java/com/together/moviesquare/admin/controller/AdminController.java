@@ -49,7 +49,19 @@ public class AdminController {
 	
 	//관리자 페이지 입장시 로그인 화면으로
 	@RequestMapping("admin")
-	public String adminLoginView(Model model) {
+	public String adminLoginView(Model model,HttpSession loginSession) {
+		if(loginSession != null) {
+			try {
+				Member mem = (Member)loginSession.getAttribute(("loginMember"));
+				if(mem.getM_email().equals("admin")) {
+					return "admin/adminMain";
+				}else {
+					loginSession.invalidate();
+				}
+			}catch(Exception e) {
+				log.info("admin정보 확인 오류" + e.toString());
+			}		
+		}
 		model.addAttribute("admin", "admin");
 		return "member/login";
 	}
@@ -272,7 +284,9 @@ public class AdminController {
 			JSONParser jparser = new JSONParser();
 			JSONObject json = (JSONObject)jparser.parse(param);
 			Member member =new Member();
-			member.setM_nickname((String)json.get("m_id"));
+			member.setM_nickname((String)json.get("m_nickname"));
+			member.setM_email((String)json.get("m_email"));
+			member.setSocal_id((String)json.get("socal_id"));
 			member.setLogin_ok((String)json.get("login_ok"));
 			log.info("내용 : " + member);
 			if(service.updateLoginok(member) > 0) {

@@ -82,7 +82,7 @@ public class AdminController {
 	public String adminMainView(Member member, HttpSession loginSession, SessionStatus status, RedirectAttributes redirectAttributes) {
 		Member loginMember = memberservice.selectMember(member.getM_email());
 		log.info("login정보 : "+ loginMember);
-		if(loginMember!=null && this.bcryptPasswordEncoder.matches(member.getM_pw(), loginMember.getM_pw())) {
+		if(loginMember!=null && this.bcryptPasswordEncoder.matches(member.getM_pw(), loginMember.getM_pw()) && loginMember.getM_email().equals("admin")) {
 			loginSession.setAttribute("loginMember", loginMember);
 			status.setComplete();
 			return "admin/adminMain";
@@ -164,6 +164,7 @@ public class AdminController {
 			mv.addObject("startPage", startPage);
 			mv.addObject("endPage", endPage);
 			mv.addObject("limit", limit);
+			mv.addObject("keyword", keyword);
 			mv.addObject("action", "userid");
 			mv.setViewName("admin/managerment");
 		}else {
@@ -229,7 +230,7 @@ public class AdminController {
 		
 		int startRow = (currentPage - 1) * limit + 1;
 		int endRow = startRow + limit - 1;
-		
+		log.info("얍 : " + keyword+ ", ");
 		//페이징 계산 처리 끝 ---------------------------------------
 		SearchPaging searchpaging = new SearchPaging(keyword, startRow, endRow);
 		
@@ -243,6 +244,7 @@ public class AdminController {
 			mv.addObject("startPage", startPage);
 			mv.addObject("endPage", endPage);
 			mv.addObject("limit", limit);
+			mv.addObject("keyword", keyword);
 			mv.addObject("action", "userid");
 			mv.setViewName("admin/moviecost");
 		}else {

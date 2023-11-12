@@ -13,10 +13,17 @@
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		id="realDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" /> 
-		<!-- <property name="url" value="jdbc:oracle:thin:@moviesquare_high?TNS_ADMIN=C:\\devtools\\wallet_movie" />-->
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />  <!-- 보경씨 로컬 서버에서 진행할때 사용 -->
+		<!-- <property name="url" value="jdbc:oracle:thin:@moviesquare_high?TNS_ADMIN=C:\\devtools\\wallet_movie" /> -->      <!-- 오라클클라우드 -->
+	    <!-- 보경씨 로컬서버에서 진행할때 사용 -->
 	    <property name="username" value="c##moviesquare" />
-	    <property name="password" value="movie" />
+	    <property name="password" value="movie" /> 
+	     <!-- -->
+	     <!-- 오라클클라우드 -->
+	     <!-- 
+		     <property name="username" value="ADMIN" />
+		    <property name="password" value="Lovelybo==0528" />
+	     -->
 	    <property name="validationQuery" value="SELECT 1 FROM DUAL"/>
 		<property name="testWhileIdle" value="true"/>
 	</bean>

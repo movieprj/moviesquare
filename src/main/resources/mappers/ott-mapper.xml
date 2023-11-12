@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ottMapper">
+    <resultMap type="Ott" id="resultOtt">
+        <id column="ott_number" property="ott_number" />
+        <result column="ott_name" property="ott_name" />
+        <result column="ott_movierank" property="ott_movierank" />
+        <result column="ott_moviename" property="ott_moviename" />
+        <result column="ott_date" property="ott_date" />
+    </resultMap>
+
+    <!-- ott 전체 개수 -->
+    <select id="getListCount" resultType="_int">
+        select count() from
+        ott_crawling
+    </select>
+
+    <!-- ott 전체 조회용 -->
+
+    <!-- ott 최신 영화 조회 -->
+<select id="selectAll" resultMap="resultOtt">
+        <![CDATA[
+            SELECT *
+            FROM (
+                SELECT
+                    OTT_NUMBER,
+                    OTT_NAME,
+                    OTT_MOVIERANK,
+                    OTT_MOVIENAME,
+                    OTT_DATE,
+                    ROW_NUMBER() OVER (PARTITION BY OTT_NAME ORDER BY OTT_MOVIERANK) as rnk
+                FROM ott_crawling
+                WHERE  (OTT_NAME, OTT_DATE) IN (
+        SELECT OTT_NAME, MAX(OTT_DATE) as max_date
+        FROM ott_crawling
+        GROUP BY OTT_NAME
+    )
+            ) ranked
+            WHERE rnk <= 10
+        ]]>
+    </select>
+</mapper>

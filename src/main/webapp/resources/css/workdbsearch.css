@@ -1,0 +1,122 @@
+.ws-wrap {
+  margin: 0;
+  border-top: none;
+}
+.ws-wrap .allmovls {
+  font-size: 25px;
+  color: #000;
+  font-weight: 700;
+}
+
+.movielist {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movielist .moviels {
+  overflow: hidden;
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movielist .moviels li {
+  float: left;
+  width: 260px;
+  margin-left: 100px;
+  margin-bottom: 60px;
+}
+.movielist .moviels li:nth-child(4n) {
+  justify-content: flex-start;
+}
+
+.movielist .moviels li .img-wrap {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  width: 260px;
+  height: 371px;
+  margin-right: 30px;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+}
+
+.img-wrap > img {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(0, -50%);
+}
+
+.movielist li .list-wrap {
+  display: block;
+  margin-top: 14px;
+}
+.movielist li .list-wrap .movie-tit {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.grade {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 50%;
+  font-size: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+.grade.gr-12::before {
+  background: url(../images/12grade.svg) 0 0 no-repeat;
+  background-size: 100%;
+}
+
+.grade.gr-15::before {
+  background: url(../images/15grade.svg) 0 0 no-repeat;
+  background-size: 100%;
+}
+
+.grade.gr-18::before {
+  background: url(../images/18grade.svg) 0 0 no-repeat;
+  background-size: 100%;
+}
+
+.grade.gr-all::before {
+  background: url(../images/allgrade.svg) 0 0 no-repeat;
+  background-size: 100%;
+}
+
+.grade.gr-pro::before {
+  background: url(../images/prohibitiongrade.svg) 0 0 no-repeat;
+  background-size: 100%;
+}
+.grade::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+}
+
+.clock-location {
+  display: flex;
+  justify-content: center;
+}
+.clock {
+  width: 20px;
+  height: 20px;
+  margin-right: 14px;
+  margin-bottom: 5px;
+  transform: translateX(10px);
+  background-color: #fff;
+}

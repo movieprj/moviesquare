@@ -63,10 +63,11 @@
                                  <a class="nav-link" href="trendany.html">트렌드분석</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="movierank.html">영화관순위</a>
+                                 <a class="nav-link" href="movierankDays.do">일별영화관순위</a>
+                                <a class="nav-link" href="movierankWeeks.do">주간별영화관순위</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="ottrank.html">OTT순위 </a>
+                                  <a class="nav-link" href="ottBoardList.do">OTT순위 </a>
                               </li>
                               <li class="nav-item">
                                  <a class="nav-link" href="contactus.do">Contact Us</a>
@@ -291,8 +292,9 @@
                            <li><a href="main.do">Home</a></li>
                            <li><a href="workdb.html">작품DB</a></li>
                            <li><a href="trendany.html">트렌드분석</a></li>
-                           <li><a href="movierank.html">영화관순위</a></li>
-                           <li><a href="ottrank.html">OTT순위</a></li>
+                           <li><a class="nav-link" href="movierankDays.do">일별영화관순위</a>
+                              <a class="nav-link" href="movierankWeeks.do">주간별영화관순위</a></li>
+                           <li><a class="nav-link" href="ottBoardList.do">OTT순위 </a></li>
                            <li><a href="contactus.do">Contact us</a></li>
                         </ul>
                      </div>

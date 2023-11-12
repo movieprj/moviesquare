@@ -14,6 +14,7 @@
 		<typeAlias type="com.together.moviesquare.movie.vo.Movie" alias="Movie" />
 		<typeAlias type="com.together.moviesquare.common.Paging" alias="Paging" />
 		<typeAlias type="com.together.moviesquare.common.SearchPaging" alias="SearchPaging" />
+		 <typeAlias type="com.together.moviesquare.ott.vo.Ott" alias="Ott" />
 	</typeAliases>
 	
 	<mappers>
@@ -21,5 +22,6 @@
 		<mapper resource="mappers/admin-mapper.xml" />
 		<mapper resource="mappers/movie-mapper.xml" />
 		<mapper resource="mappers/views-mapper.xml" />
+		<mapper resource="mappers/ott-mapper.xml" />
 	</mappers>
 </configuration>

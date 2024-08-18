@@ -13,14 +13,14 @@
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		id="realDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />  <!-- 보경씨 로컬 서버에서 진행할때 사용 -->
+		<property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-seoul-1.oraclecloud.com))(connect_data=(service_name=gf6d09aebf38705_ev15cr8gog5011dl_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))" />  <!-- 보경씨 로컬 서버에서 진행할때 사용 -->
 		<!-- <property name="url" value="jdbc:oracle:thin:@moviesquare_high?TNS_ADMIN=C:\\devtools\\wallet_movie" /> -->      <!-- 오라클클라우드 -->
 	    <!-- 보경씨 로컬서버에서 진행할때 사용 -->
-	    <property name="username" value="c##moviesquare" />
-	    <property name="password" value="movie" /> 
+	    <property name="username" value="admin" />
+	    <property name="password" value="!Sss04220420" /> 
 	     <!-- -->
 	     <!-- 오라클클라우드 -->
-	     <!-- 
+	     <!-- 		
 		     <property name="username" value="ADMIN" />
 		    <property name="password" value="Lovelybo==0528" />
 	     -->

@@ -2,6 +2,9 @@ package com.together.moviesquare.member.vo;
 
 import java.io.Serializable;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class Member implements Serializable{
 	private static final long serialVersionUID = -9221403764215912626L;
 	
@@ -17,7 +20,6 @@ public class Member implements Serializable{
 	private String socal_id;
 	public Member(String m_pw, String m_name, String m_nickname, String m_email, String m_gender,
 			String m_birthday, String admin, String login_ok, String agecode, String socal_id) {
-		super();
 		this.m_pw = m_pw;
 		this.m_name = m_name;
 		this.m_nickname = m_nickname;
@@ -29,10 +31,6 @@ public class Member implements Serializable{
 		this.agecode = agecode;
 		this.socal_id = socal_id;
 	}
-	public Member() {
-		super();
-	}
-	
 	public String getSocal_id() {
 		return socal_id;
 	}

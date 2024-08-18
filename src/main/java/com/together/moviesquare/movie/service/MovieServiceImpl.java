@@ -1,6 +1,7 @@
 package com.together.moviesquare.movie.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.together.moviesquare.common.Paging;
 import com.together.moviesquare.common.SearchPaging;
 import com.together.moviesquare.movie.dao.MovieDao;
 import com.together.moviesquare.movie.vo.Movie;
+import com.together.moviesquare.movie.vo.MovieResult;
 
 @Service("movieService")
 public class MovieServiceImpl implements MovieService{
@@ -35,5 +37,19 @@ public class MovieServiceImpl implements MovieService{
 		return dao.selectSearchList(searchpaging);
 	}
 
+	@Override
+	public int mergeIntoMovieList(List<MovieResult> mList) {
+		return dao.mergeIntoMovieList(mList);
+	}
+
+	@Override
+	public int mergeIntoMovieListOne(MovieResult m) {
+		return dao.mergeIntoMovieListOne(m);
+	}
+	
+	@Override
+	public Movie selectMovieById(String movieId) {
+		return dao.selectMovieById(movieId);
+	}
 	
 }

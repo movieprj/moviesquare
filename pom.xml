@@ -24,7 +24,7 @@
 				<!-- Exclude Commons Logging in favor of SLF4j -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
+					<artifactId>commons-logging</artifactId> 
 				 </exclusion>
 			</exclusions>
 		</dependency>
@@ -56,6 +56,20 @@
 		    <artifactId>aspectjweaver</artifactId>
 		    <version>${org.aspectj-version}</version>		    
 		</dependency>
+		
+		<!-- Gson 추가 -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
+<!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-core -->
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-core</artifactId>
+    <version>1.11.0</version>
+</dependency>
 
 		<!-- proxy 제어를 위한 cglib 추가 -->
 		<!-- https://mvnrepository.com/artifact/cglib/cglib -->

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.together.moviesquare.common.Paging;
 import com.together.moviesquare.common.SearchPaging;
-import com.together.moviesquare.member.vo.Member;
 import com.together.moviesquare.movie.vo.Movie;
+import com.together.moviesquare.movie.vo.MovieResult;
 
 import lombok.extern.java.Log;
 
@@ -50,4 +50,15 @@ public class MovieDao {
 		return (ArrayList<Movie>)list;
 	} 
 	
+	public int mergeIntoMovieList(List<MovieResult> mList) {
+		return session.insert("movieMapper.mergeIntoMovieList",mList);
+	}
+	
+	public int mergeIntoMovieListOne(MovieResult m) {
+		return session.insert("movieMapper.mergeIntoMovieListOne",m);
+	}
+
+	public Movie selectMovieById(String movieId) {
+		return session.selectOne("movieMapper.selectMovieById",movieId);
+	}
 }
